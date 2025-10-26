@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Data Pet</title>
-    <link rel="stylesheet" href="{{ asset('CSS/admin.css') }}">
+    <link rel="stylesheet" href="{{ asset('CSS/daftar.css') }}">
 </head>
 
 <body>
-    @include('partials.navbar-dashboard')
+    @include('partials.navbar-admin')
 
     <main>
         <table>
@@ -35,8 +35,8 @@
                         <td>{{ $row->warna_tanda }}</td>
                         <td>{{ $row->jenis_kelamin }}</td>
                         <td>
-                            <a href="{{ route('pet.edit', $row->idpet) }}">Edit</a>
-                            <a href="{{ route('pet.destroy', $row->idpet) }}"
+                            <a href="">Edit</a>
+                            <a href=""
                             onclick="return confirm('Yakin hapus pet ini?')">
                             Hapus
                             </a>

@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Data Tindakan Terapi</title>
-    <link rel="stylesheet" href="{{ asset('CSS/admin.css') }}">
+    <link rel="stylesheet" href="{{ asset('CSS/daftar.css') }}">
 </head>
 
 <body>
-    @include('partials.navbar-dashboard')
+    @include('partials.navbar-admin')
 
     <main>
         <button>
-            <a href="{{ route('tindakanterapi.create') }}">Tambah Tindakan Terapi</a>
+            <a href="">Tambah Tindakan Terapi</a>
         </button>
 
         <table>
@@ -27,7 +27,7 @@
             </thead>
 
             <tbody>
-                @foreach($tindakanTerapiList as $row)
+                @foreach($tindakanterapilist as $row)
                     <tr>
                         <td>{{ $row->idkode_tindakan_terapi }}</td>
                         <td>{{ $row->kode }}</td>
@@ -35,7 +35,7 @@
                         <td>{{ $row->kategori->nama_kategori ?? '-' }}</td>
                         <td>{{ $row->kategoriKlinis->nama_kategori_klinis ?? '-' }}</td>
                         <td>
-                            <a href="{{ route('tindakanterapi.destroy', $row->idkode_tindakan_terapi) }}"
+                            <a href=""
                               onclick="return confirm('Yakin hapus tindakan terapi ini?')">
                               Hapus
                             </a>

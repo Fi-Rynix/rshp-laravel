@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Data Kategori Klinis</title>
-    <link rel="stylesheet" href="{{ asset('CSS/admin.css') }}">
+    <link rel="stylesheet" href="{{ asset('CSS/daftar.css') }}">
 </head>
 
 <body>
-    @include('partials.navbar-dashboard')
+    @include('partials.navbar-admin')
 
     <main>
         <button>
-            <a href="{{ route('kategoriklinis.create') }}">Tambah Kategori Klinis</a>
+            <a href="">Tambah Kategori Klinis</a>
         </button>
 
         <table>
@@ -24,13 +24,13 @@
             </thead>
 
             <tbody>
-                @foreach($kategoriKlinisList as $row)
+                @foreach($kategori_klinis_list as $row)
                     <tr>
                         <td>{{ $row->idkategori_klinis }}</td>
                         <td>{{ $row->nama_kategori_klinis }}</td>
                         <td>
-                            <a href="{{ route('kategoriklinis.edit', $row->idkategori_klinis) }}">Edit</a>
-                            <a href="{{ route('kategoriklinis.destroy', $row->idkategori_klinis) }}"
+                            <a href="">Edit</a>
+                            <a href=""
                               onclick="return confirm('Yakin hapus kategori klinis ini?')">
                               Hapus
                             </a>

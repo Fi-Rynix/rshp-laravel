@@ -12,17 +12,17 @@ class User extends Model
 
     protected $fillable = ['nama', 'email', 'password'];
 
-    public function pemilik()
+    public function roleUsers()
     {
-        return $this->hasOne(Pemilik::class, 'iduser', 'iduser');
+        return $this->hasMany(RoleUser::class, 'iduser', 'iduser');
     }
 
     public function roles()
     {
         return $this->belongsToMany(Role::class, 'role_user', 'iduser', 'idrole')
-                    ->withPivot('status')
-                    ->withTimestamps();
+                    ->withPivot('status');
     }
+
 }
 
 ?>

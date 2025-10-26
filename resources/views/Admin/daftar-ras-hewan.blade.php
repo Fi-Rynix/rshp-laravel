@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Manajemen Ras Hewan</title>
-    <link rel="stylesheet" href="{{ asset('CSS/admin.css') }}">
+    <link rel="stylesheet" href="{{ asset('CSS/daftar.css') }}">
 </head>
 
 <body>
-    @include('partials.navbar-dashboard')
+    @include('partials.navbar-admin')
 
     <main>
         <table>
@@ -29,8 +29,8 @@
                                     @foreach($jenis->rasHewan as $ras)
                                         <li>
                                             {{ $ras->nama_ras }}
-                                            <a href="{{ route('rashewan.edit', $ras->idras_hewan) }}">Update</a>
-                                            <a href="{{ route('rashewan.destroy', $ras->idras_hewan) }}"
+                                            <a href="">Update</a>
+                                            <a href=""
                                               onclick="return confirm('Yakin hapus ras ini?')">
                                               Delete
                                             </a>
@@ -42,7 +42,7 @@
                             @endif
                         </td>
                         <td>
-                            <a href="{{ route('rashewan.create', ['idjenis' => $jenis->idjenis_hewan]) }}">
+                            <a href="">
                                 Tambah Ras
                             </a>
                         </td>

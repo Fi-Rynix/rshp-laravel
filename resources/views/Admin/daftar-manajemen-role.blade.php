@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Manajemen Role</title>
-    <link rel="stylesheet" href="{{ asset('CSS/manajemenrole.css') }}">
+    <link rel="stylesheet" href="{{ asset('CSS/daftar.css') }}">
 </head>
 <body>
-    @include('partials.navbar-dashboard')
+    @include('partials.navbar-admin')
 
     <main>
         <table>
@@ -38,7 +38,7 @@
                             @endif
                         </td>
                         <td>
-                            <a href="{{ route('role.edit', $user->iduser) }}">Edit Role</a>
+                            <a href="">Edit Role</a>
                         </td>
                     </tr>
                 @endforeach

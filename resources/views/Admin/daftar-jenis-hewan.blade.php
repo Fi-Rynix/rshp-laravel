@@ -9,7 +9,7 @@
 <body>
     @include('Partials.navbar-admin')
     <main>
-    <button><a href="Fitur/tambahhewan.php">Tambah Hewan</a></button>
+    <button><a href="">Tambah Hewan</a></button>
     <table>
         <thead>
         <tr>
@@ -24,8 +24,8 @@
                 <td>{{ $row->idjenis_hewan }}</td>
                 <td>{{ $row->nama_jenis_hewan }}</td>
                 <td>
-                    <button><a href="Fitur/editjenishewan.php?idjenis_hewan={{ $row->idjenis_hewan }}">Edit</a></button>
-                    <button><a href="Fitur/hapusjenishewan.php?idjenis_hewan={{ $row->idjenis_hewan }}">Hapus</a></button>
+                    <button><a href="">Edit</a></button>
+                    <button><a href="">Hapus</a></button>
                 </td>
             </tr>
             @endforeach

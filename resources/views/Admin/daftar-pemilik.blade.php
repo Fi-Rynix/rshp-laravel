@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Data Pemilik</title>
-    <link rel="stylesheet" href="{{ asset('CSS/admin.css') }}">
+    <link rel="stylesheet" href="{{ asset('CSS/daftar.css') }}">
 </head>
 
 <body>
-    @include('partials.navbar-dashboard')
+    @include('partials.navbar-admin')
 
     <main>
         <table>
@@ -31,8 +31,8 @@
                         <td>{{ $row->alamat }}</td>
                         <td>{{ $row->no_wa }}</td>
                         <td>
-                            <a href="{{ route('pemilik.edit', $row->idpemilik) }}">Edit</a>
-                            <a href="{{ route('pemilik.destroy', $row->idpemilik) }}"
+                            <a href="">Edit</a>
+                            <a href=""
                             onclick="return confirm('Yakin hapus pemilik ini?')">
                             Hapus
                             </a>

@@ -13,3 +13,5 @@ class JenisHewan_Controller extends Controller
         return view('Admin.daftar-jenis-hewan', compact('hewanlist'));
     }
 }
+
+?>

@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Data Kategori</title>
-    <link rel="stylesheet" href="{{ asset('CSS/admin.css') }}">
+    <link rel="stylesheet" href="{{ asset('CSS/daftar.css') }}">
 </head>
 
 <body>
-    @include('partials.navbar-dashboard')
+    @include('partials.navbar-admin')
 
     <main>
         <button>
-            <a href="{{ route('kategori.create') }}">Tambah Kategori</a>
+            <a href="">Tambah Kategori</a>
         </button>
 
         <table>
@@ -29,8 +29,8 @@
                         <td>{{ $row->idkategori }}</td>
                         <td>{{ $row->nama_kategori }}</td>
                         <td>
-                            <a href="{{ route('kategori.edit', $row->idkategori) }}">Edit</a>
-                            <a href="{{ route('kategori.destroy', $row->idkategori) }}" 
+                            <a href="">Edit</a>
+                            <a href=""
                               onclick="return confirm('Yakin hapus kategori ini?')">
                               Hapus
                             </a>

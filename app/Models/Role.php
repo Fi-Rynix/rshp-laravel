@@ -10,14 +10,20 @@ class Role extends Model
     protected $primaryKey = 'idrole';
     public $timestamps = false;
 
-    protected $fillable = ['nama_role'];
+    protected $fillable = ['nama_role', 'deskripsi'];
+
+    public function roleUsers()
+    {
+        return $this->hasMany(RoleUser::class, 'idrole', 'idrole');
+    }
 
     public function users()
     {
-        return $this->belongsToMany(User::class, 'role_user', 'idrole', 'iduser')
-                    ->withPivot('status')
-                    ->withTimestamps();
+    return $this->belongsToMany(User::class, 'role_user', 'idrole', 'iduser')
+                ->withPivot('status')
+                ->withoutTimestamps();
     }
+
 }
 
 ?>
