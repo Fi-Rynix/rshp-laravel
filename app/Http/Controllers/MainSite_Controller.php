@@ -18,9 +18,9 @@ class MainSite_Controller extends Controller
         return view('MainSite.layanan-umum');
     }
 
-    public function login() {
-        return view('MainSite.login');
-    }
+    // public function login() {
+    //     return view('MainSite.login');
+    // }
 
     public function cek_koneksi() {
         try {

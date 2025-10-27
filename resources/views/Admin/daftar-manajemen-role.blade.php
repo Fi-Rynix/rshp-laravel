@@ -19,20 +19,23 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($rolelist as $user)
+                @foreach($roleuserlist as $user)
                     <tr>
                         <td>{{ $user->iduser }}</td>
                         <td>{{ $user->nama }}</td>
                         <td>
-                            @if($user->roles && $user->roles->count() > 0)
-                                <ul class="role-list">
-                                    @foreach($user->roles as $role)
-                                        <li class="{{ $role->pivot->status === 1 ? 'aktif' : 'nonaktif' }}">
-                                            {{ $role->nama_role }}
-                                            ({{ $role->pivot->status === 1 ? 'Aktif' : 'Non-Aktif' }})
-                                        </li>
-                                    @endforeach
-                                </ul>
+                            @if($user->roleUsers->isNotEmpty())
+                                @foreach($user->roleUsers as $ru)
+                                    @if($ru->role)
+                                        @if($ru->status == 1)
+                                            <div><strong>{{ $ru->role->nama_role }} (Aktif)</strong></div>
+                                        @else
+                                            <div>{{ $ru->role->nama_role }} (Non-Aktif)</div>
+                                        @endif
+                                    @else
+                                        <div>—</div>
+                                    @endif
+                                @endforeach
                             @else
                                 <span class="no-role">Belum ada role</span>
                             @endif

@@ -17,10 +17,9 @@ class User extends Model
         return $this->hasMany(RoleUser::class, 'iduser', 'iduser');
     }
 
-    public function roles()
+    public function Pemilik()
     {
-        return $this->belongsToMany(Role::class, 'role_user', 'iduser', 'idrole')
-                    ->withPivot('status');
+        return $this->hasOne(Pemilik::class, 'iduser', 'iduser');
     }
 
 }

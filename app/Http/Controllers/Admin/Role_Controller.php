@@ -10,8 +10,12 @@ use App\Models\User;
 class Role_Controller extends Controller
 {
     public function daftar_manajemen_role() {
-        $rolelist = User::with('roles')->get();
-        return view('Admin.daftar-manajemen-role', compact('rolelist'));
+        // ambil semua user yang punya role_user status=1 dan eager-load roleUsers -> role
+        $roleuserlist = User::whereHas('roleUsers', function($q){
+            $q->where('status', 1);
+        })->with('roleUsers.role')->get();
+
+        return view('Admin.daftar-manajemen-role', compact('roleuserlist'));
     }
 }
 

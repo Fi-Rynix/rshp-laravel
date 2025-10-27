@@ -30,7 +30,7 @@ Route::get('struktur-organisasi', [MainSite_Controller::class,'struktur_organisa
 
 Route::get('layanan-umum', [MainSite_Controller::class,'layanan_umum'])->name('layanan-umum');
 
-Route::get('login', [MainSite_Controller::class,'login'])->name('login');
+// Route::get('login', [MainSite_Controller::class,'login'])->name('login');
 
 Route::get('cek-koneksi', [MainSite_Controller::class, 'cek_koneksi' ])->name('cek-koneksi');
 
@@ -56,5 +56,7 @@ Route::get('daftar-tindakan-terapi', [TindakanTerapi_Controller::class, 'daftar_
 
 Route::get('daftar-user', [User_Controller::class, 'daftar_user'])->name('daftar-user');
 
-?>
 
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
