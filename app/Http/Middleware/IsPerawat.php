@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
-class IsAdmin
+class IsPerawat
 {
     public function handle(Request $request, Closure $next): Response
     {
@@ -17,7 +17,7 @@ class IsAdmin
 
         $id_role = session('idrole');
 
-        if ($id_role == 1) {
+        if ($id_role == 3) {
             return $next($request);
         }
 

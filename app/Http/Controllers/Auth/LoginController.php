@@ -11,26 +11,17 @@ use App\Models\User;
 
 class LoginController extends Controller
 {
-    /**
-     * Matikan trait bawaan AuthenticatesUsers karena kita pakai login custom
-     */
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
         $this->middleware('auth')->only('logout');
     }
 
-    /**
-     * Tampilkan form login
-     */
     public function showLoginForm()
     {
         return view('auth.login');
     }
 
-    /**
-     * Proses login manual dengan validasi dan redirect berdasarkan role
-     */
     public function login(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -42,7 +33,6 @@ class LoginController extends Controller
             return back()->withErrors($validator)->withInput();
         }
 
-        // Ambil user dan role aktifnya
         $user = User::with(['roleUsers' => function ($q) {
             $q->where('status', 1);
         }, 'roleUsers.role'])
@@ -78,20 +68,19 @@ class LoginController extends Controller
             case 1:
                 return redirect()->route('dashboard-admin')->with('success', 'Login berhasil sebagai Admin');
             case 2:
-                return redirect()->route('Dokter.dashboard')->with('success', 'Login berhasil sebagai Dokter');
+                return redirect()->route('dashboard-dokter')->with('success', 'Login berhasil sebagai Dokter');
             case 3:
-                return redirect()->route('Perawat.dashboard')->with('success', 'Login berhasil sebagai Perawat');
+                return redirect()->route('dashboard-perawat')->with('success', 'Login berhasil sebagai Perawat');
             case 4:
-                return redirect()->route('Resepsionis.dashboard')->with('success', 'Login berhasil sebagai Resepsionis');
+                return redirect()->route('dashboard-resepsionis')->with('success', 'Login berhasil sebagai Resepsionis');
+            case 5:
+                return redirect()->route('dashboard-pemilik')->with('success', 'Login berhasil sebagai Pemilik');
             default:
                 Auth::logout();
                 return redirect()->route('login')->withErrors(['role' => 'Role tidak dikenali'])->withInput();
         }
     }
 
-    /**
-     * Logout user
-     */
     public function logout(Request $request)
     {
         Auth::logout();

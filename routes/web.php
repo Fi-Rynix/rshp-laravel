@@ -1,6 +1,11 @@
 <?php
 
 use App\Http\Controllers\Admin\Dashboard_Controller;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Dokter\DashboardDokter_Controller;
+use App\Http\Controllers\Pemilik\DashboardPemilik_Controller;
+use App\Http\Controllers\Perawat\DashboardPerawat_Controller;
+use App\Http\Controllers\Resepsionis\DashboardResepsionis_Controller;
 use Illuminate\Support\Facades\Route;
 
 //halaman utama
@@ -50,6 +55,37 @@ Route::get('daftar-ras-hewan', [RasHewan_Controller::class, 'daftar_ras_hewan'])
 Route::get('daftar-tindakan-terapi', [TindakanTerapi_Controller::class, 'daftar_tindakan_terapi'])->name('daftar-tindakan-terapi');
 Route::get('daftar-user', [User_Controller::class, 'daftar_user'])->name('daftar-user');
 });
+
+
+//dokter
+Route::middleware(['auth', 'IsDokter'])->group(function () {
+    Route::get('dashboard-dokter', [DashboardDokter_Controller::class, 'dashboard_dokter'])->name('dashboard-dokter');
+});
+
+
+//perawat
+Route::middleware(['auth', 'IsPerawat'])->group(function () {
+    Route::get('dashboard-perawat', [DashboardPerawat_Controller::class, 'dashboard_perawat'])->name('dashboard-perawat');
+});
+
+
+//resepsionis
+Route::middleware(['auth', 'IsResepsionis'])->group(function () {
+    Route::get('dashboard-resepsionis', [DashboardResepsionis_Controller::class, 'dashboard_resepsionis'])->name('dashboard-resepsionis');
+});
+
+
+//pemilik
+Route::middleware(['auth','IsPemilik'])->group(function () {
+    Route::get('dashboard-pemilik', [DashboardPemilik_Controller::class, 'dashboard_pemilik'])->name('dashboard-pemilik');
+});
+
+
+//logout
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+
+
+
 
 
 

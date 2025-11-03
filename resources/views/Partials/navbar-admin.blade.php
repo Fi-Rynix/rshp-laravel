@@ -45,7 +45,10 @@
         <ul>
           <li>
             <a href="{{ route('data-master-admin') }}">Data Master</a>
-            <a href="{{ route('login') }}">Logout</a>
+            <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                @csrf
+            </form>
           </li>
         </ul>
       </nav>
