@@ -9,7 +9,9 @@
 <body>
     @include('Partials.navbar-admin')
     <main>
-    <button><a href="">Tambah Hewan</a></button>
+    <form action="{{ route('Admin.JenisHewan.create-jenis-hewan') }}">
+        <button><a href="">Tambah Hewan</a></button>
+    </form>
     <table>
         <thead>
         <tr>

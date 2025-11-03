@@ -41,11 +41,15 @@ Route::get('cek-koneksi', [MainSite_Controller::class, 'cek_koneksi' ])->name('c
 Auth::routes();
 
 //admin
-Route::middleware(['auth', 'IsAdmin'])->group(function () {
+Route::middleware(['auth', 'IsAdmin'])->prefix('Admin')->name('Admin.')->group(function () {
 
 Route::get('dashboard-admin', [Dashboard_Controller::class, 'dashboard_admin'])->name('dashboard-admin');
 Route::get('data-master-admin', [AdminSite_Controller::class, 'data_master'])->name('data-master-admin');
+
 Route::get('daftar-jenis-hewan', [JenisHewan_Controller::class, 'daftar_jenis_hewan' ])->name('daftar-jenis-hewan');
+Route::get('JenisHewan/create-jenis-hewan', [JenisHewan_Controller::class, 'create_jenis_hewan'])->name('JenisHewan.create-jenis-hewan');
+Route::post('JenisHewan/store-jenis-hewan', [JenisHewan_Controller::class, 'store_jenis_hewan'])->name('JenisHewan.store-jenis-hewan');
+
 Route::get('daftar-kategori', [Kategori_Controller::class, 'daftar_kategori'])->name('daftar-kategori');
 Route::get('daftar-kategori-klinis', [KategoriKlinis_Controller::class, 'daftar_kategori_klinis'])->name('daftar-kategori-klinis');
 Route::get('daftar-manajemen-role', [Role_Controller::class, 'daftar_manajemen_role'])->name('daftar-manajemen-role');
