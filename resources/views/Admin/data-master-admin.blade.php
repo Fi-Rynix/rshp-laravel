@@ -11,31 +11,31 @@
     <main>
       <div class="button-container">
         <div class="menu-box">
-          <a href="{{ route('admin.daftar-user') }}">Data User</a>
+          <a href="{{ route('Admin.daftar-user') }}">Data User</a>
         </div>
         <div class="menu-box">
-          <a href="{{ route('admin.daftar-manajemen-role') }}">Manajemen Role</a>
+          <a href="{{ route('Admin.daftar-manajemen-role') }}">Manajemen Role</a>
         </div>
         <div class="menu-box">
-          <a href="{{ route('admin.daftar-jenis-hewan') }}">Jenis Hewan</a>
+          <a href="{{ route('Admin.daftar-jenis-hewan') }}">Jenis Hewan</a>
         </div>
         <div class="menu-box">
-          <a href="{{ route('admin.daftar-ras-hewan') }}">Ras Hewan</a>
+          <a href="{{ route('Admin.daftar-ras-hewan') }}">Ras Hewan</a>
         </div>
         <div class="menu-box">
-          <a href="{{ route('admin.daftar-pemilik') }}">Data Pemilik</a>
+          <a href="{{ route('Admin.daftar-pemilik') }}">Data Pemilik</a>
         </div>
         <div class="menu-box">
-          <a href="{{ route('admin.daftar-pet') }}">Data Pet</a>
+          <a href="{{ route('Admin.daftar-pet') }}">Data Pet</a>
         </div>
         <div class="menu-box">
-          <a href="{{ route('admin.daftar-kategori') }}">Data Kategori</a>
+          <a href="{{ route('Admin.daftar-kategori') }}">Data Kategori</a>
         </div>
         <div class="menu-box">
-          <a href="{{ route('admin.daftar-kategori-klinis') }}">Data Kategori Klinis</a>
+          <a href="{{ route('Admin.daftar-kategori-klinis') }}">Data Kategori Klinis</a>
         </div>
         <div class="menu-box">
-          <a href="{{ route('admin.daftar-tindakan-terapi') }}">Data Tindakan Terapi</a>
+          <a href="{{ route('Admin.daftar-tindakan-terapi') }}">Data Tindakan Terapi</a>
         </div>
       </div>
     </main>

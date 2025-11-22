@@ -37,6 +37,11 @@ Route::get('cek-koneksi', [MainSite_Controller::class, 'cek_koneksi' ])->name('c
 
 // Route::get('login', [MainSite_Controller::class,'login'])->name('login');
 
+Route::get('/preview-layout', function () {
+    return view('test-preview');
+});
+
+
 
 Auth::routes();
 

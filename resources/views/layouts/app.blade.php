@@ -1,80 +1,59 @@
-<!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@yield('title', 'Dashboard')</title>
 
-    <!-- CSRF Token -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    {{-- Tailwind CDN --}}
+    <script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="{{ asset('css/style.css') }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <!-- Fonts -->
-    <link rel="dns-prefetch" href="//fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
-
-    <!-- Scripts -->
-    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    @stack('styles')
 </head>
-<body>
-    <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
-            <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+<body
+    x-data="{
+        page: 'dashboard',
+        loaded: true,
+        darkMode: JSON.parse(localStorage.getItem('darkMode')) || false,
+        stickyMenu: false,
+        sidebarToggle: false,
+        scrollTop: false
+    }"
+    x-init="$watch('darkMode', val => localStorage.setItem('darkMode', JSON.stringify(val)))"
+    :class="{ 'dark bg-gray-900': darkMode }"
+>
 
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav me-auto">
+    {{-- Wrapper --}}
+    <div class="flex h-screen overflow-hidden">
 
-                    </ul>
+        {{-- Sidebar --}}
+        @include('layouts.partials.sidebar')
 
-                    <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ms-auto">
-                        <!-- Authentication Links -->
-                        @guest
-                            @if (Route::has('login'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                                </li>
-                            @endif
+        {{-- Content --}}
+        <div class="relative flex flex-col flex-1 overflow-x-hidden overflow-y-auto">
 
-                            @if (Route::has('register'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                                </li>
-                            @endif
-                        @else
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->name }}
-                                </a>
+            {{-- Mobile overlay --}}
+            @include('layouts.partials.overlay')
 
-                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
-                                    </a>
+            {{-- Header --}}
+            @include('layouts.partials.header')
 
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                        @csrf
-                                    </form>
-                                </div>
-                            </li>
-                        @endguest
-                    </ul>
-                </div>
-            </div>
-        </nav>
+            {{-- Breadcrumb --}}
+            @include('layouts.partials.breadcrumb')
 
-        <main class="py-4">
-            @yield('content')
-        </main>
+            {{-- Main content --}}
+            <main class="p-4 md:p-6 max-w-screen-2xl mx-auto">
+                @yield('content')
+            </main>
+
+        </div>
     </div>
+
+    {{-- Alpine CDN --}}
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    @stack('scripts')
 </body>
 </html>
