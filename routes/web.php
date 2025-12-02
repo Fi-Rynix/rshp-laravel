@@ -53,9 +53,9 @@ Route::get('dashboard-admin', [Dashboard_Controller::class, 'dashboard_admin'])-
 Route::get('JenisHewan/daftar-jenis-hewan', [JenisHewan_Controller::class, 'daftar_jenis_hewan' ])->name('JenisHewan.daftar-jenis-hewan');
 Route::get('JenisHewan/create-jenis-hewan', [JenisHewan_Controller::class, 'create_jenis_hewan'])->name('JenisHewan.create-jenis-hewan');
 Route::post('JenisHewan/store-jenis-hewan', [JenisHewan_Controller::class, 'store_jenis_hewan'])->name('JenisHewan.store-jenis-hewan');
-Route::get('JenisHewan/edit-jenis-hewan/{id}', [JenisHewan_Controller::class, 'edit_jenis_hewan'])->name('edit-jenis-hewan');
-Route::put('JenisHewan/update-jenis-hewan/{id}', [JenisHewan_Controller::class, 'update_jenis_hewan'])->name('update-jenis-hewan');
-Route::delete('JenisHewan/delete-jenis-hewan/{id}', [JenisHewan_Controller::class, 'delete_jenis_hewan'])->name('delete-jenis-hewan');
+Route::get('JenisHewan/edit-jenis-hewan/{id}', [JenisHewan_Controller::class, 'edit_jenis_hewan'])->name('JenisHewan.edit-jenis-hewan');
+Route::put('JenisHewan/update-jenis-hewan/{id}', [JenisHewan_Controller::class, 'update_jenis_hewan'])->name('JenisHewan.update-jenis-hewan');
+Route::delete('JenisHewan/delete-jenis-hewan/{id}', [JenisHewan_Controller::class, 'delete_jenis_hewan'])->name('JenisHewan.delete-jenis-hewan');
 
 
 Route::get('Kategori/daftar-kategori', [Kategori_Controller::class, 'daftar_kategori'])->name('daftar-kategori');
