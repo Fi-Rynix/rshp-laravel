@@ -1,17 +1,14 @@
+@extends('layouts.app')
 
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8">
-    <title>Dashboard Dokter</title>
-    <link rel="stylesheet" href="{{asset ('CSS/dashboard.css')}}">
-  </head>
+@section('title', 'Dashboard Admin')
 
-  <body>
-    @include('partials.navbar-admin')
-    <main>
-      <h1>Selamat datang, {{ Auth::user()->nama }}!</h1>
-      <p>Anda login sebagai {{ session('role') }}</p>
-    </main>
-  </body>
-</html>
+@section('content')
+
+<div class="grid grid-cols-1 gap-6">
+    <div class="bg-gradient-to-r from-blue-500 to-blue-400 rounded-lg p-8 text-white shadow-md">
+        <h1 class="text-3xl font-bold mb-2">Selamat datang, {{ Auth::user()->nama }}!</h1>
+        <p class="text-blue-100">Anda login sebagai <span class="font-semibold">{{ session('role') }}</span></p>
+    </div>
+</div>
+
+@endsection

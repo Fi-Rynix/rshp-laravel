@@ -10,7 +10,7 @@ class Kategori_Controller extends Controller
 {
     public function daftar_kategori() {
         $kategorilist = Kategori::all();
-        return view('Admin.daftar-kategori', compact('kategorilist'));
+        return view('Admin.Kategori.daftar-kategori', compact('kategorilist'));
     }
 }
 

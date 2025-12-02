@@ -3,57 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Dashboard')</title>
-
-    {{-- Tailwind CDN --}}
-    <script src="https://cdn.tailwindcss.com"></script>
-<link rel="stylesheet" href="{{ asset('css/style.css') }}">
-
-
-    @stack('styles')
+    <title>@yield('title', 'RSHP')</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindplus/elements@1" type="module"></script>
+    @vite(['resources/css/app.css'])
 </head>
-<body
-    x-data="{
-        page: 'dashboard',
-        loaded: true,
-        darkMode: JSON.parse(localStorage.getItem('darkMode')) || false,
-        stickyMenu: false,
-        sidebarToggle: false,
-        scrollTop: false
-    }"
-    x-init="$watch('darkMode', val => localStorage.setItem('darkMode', JSON.stringify(val)))"
-    :class="{ 'dark bg-gray-900': darkMode }"
->
 
-    {{-- Wrapper --}}
-    <div class="flex h-screen overflow-hidden">
+<body class="bg-gray-100"
+    x-data="{ sidebarOpen: false }">
 
-        {{-- Sidebar --}}
+    <div class="flex h-screen">
+
+        {{-- SIDEBAR --}}
         @include('layouts.partials.sidebar')
 
-        {{-- Content --}}
-        <div class="relative flex flex-col flex-1 overflow-x-hidden overflow-y-auto">
+        {{-- MAIN CONTENT --}}
+        <div class="flex-1 flex flex-col">
 
-            {{-- Mobile overlay --}}
-            @include('layouts.partials.overlay')
-
-            {{-- Header --}}
+            {{-- HEADER --}}
             @include('layouts.partials.header')
 
-            {{-- Breadcrumb --}}
-            @include('layouts.partials.breadcrumb')
-
-            {{-- Main content --}}
-            <main class="p-4 md:p-6 max-w-screen-2xl mx-auto">
+            {{-- PAGE CONTENT --}}
+            <main class="p-6">
                 @yield('content')
             </main>
 
         </div>
     </div>
 
-    {{-- Alpine CDN --}}
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    {{-- AlpineJS --}}
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 
-    @stack('scripts')
 </body>
 </html>
