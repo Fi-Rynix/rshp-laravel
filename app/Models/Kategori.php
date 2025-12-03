@@ -10,7 +10,7 @@ class Kategori extends Model
     protected $primaryKey = 'idkategori';
     public $timestamps = false;
 
-    protected $fillable = ['nama_kategori'];
+    protected $fillable = ['idkategori', 'nama_kategori'];
 
     public function kodeTindakanTerapi()
     {

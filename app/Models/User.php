@@ -25,5 +25,15 @@ class User extends Authenticatable
         return $this->hasOne(Pemilik::class, 'iduser', 'iduser');
     }
 
+    public function Dokter()
+    {
+        return $this->hasOne(Dokter::class, 'iduser', 'iduser');
+    }
+
+    public function Perawat()
+    {
+        return $this->hasOne(Perawat::class, 'iduser', 'iduser');
+    }
+
 }
 ?>

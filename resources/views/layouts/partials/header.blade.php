@@ -1,4 +1,4 @@
-<header class="h-20 bg-gradient-to-r from-blue-500 to-blue-400 border-b border-blue-600 flex items-center justify-between px-6 shadow-md"
+<header class="h-20 bg-gradient-to-r from-blue-500 to-blue-400 border-b border-blue-600 flex items-center justify-between px-6 shadow-md flex-shrink-0"
     x-data="{ profileOpen: false }">
 
     <div class="flex items-center gap-4">
@@ -33,9 +33,9 @@
 
                 {{-- Dropdown Menu --}}
                 <div x-show="profileOpen"
-                     @click.outside="profileOpen = false"
-                     x-transition
-                     class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 z-50">
+                    @click.outside="profileOpen = false"
+                    x-transition
+                    class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 z-50">
                     <div class="px-4 py-3 border-b border-gray-100">
                         <p class="text-sm text-gray-600">User</p>
                         <p class="font-semibold text-gray-800">{{ session('nama') ?? 'User' }}</p>

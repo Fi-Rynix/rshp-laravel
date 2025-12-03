@@ -27,44 +27,13 @@
         </button>
     </div>
 
-    {{-- Flash Message Modern --}}
-    @if (session('success'))
-        <div
-            x-data="{ show: true }"
-            x-show="show"
-            x-init="setTimeout(() => show = false, 5000)"
-            x-transition:enter="transform transition ease-out duration-300"
-            x-transition:enter-start="-translate-y-10 opacity-0"
-            x-transition:enter-end="translate-y-0 opacity-100"
-            x-transition:leave="transform transition ease-in duration-300"
-            x-transition:leave-start="translate-y-0 opacity-100"
-            x-transition:leave-end="-translate-y-10 opacity-0"
-            class="fixed top-4 right-4 z-[9999] flex items-center gap-3 px-5 py-3 bg-green-600 text-white rounded-xl shadow-lg"
-        >
-            {{-- Icon --}}
-            <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
-            </svg>
-
-            {{-- Pesan --}}
-            <span class="font-medium">{{ session('success') }}</span>
-
-            {{-- Close button --}}
-            <button type="button" @click="show = false" class="ml-auto text-white hover:text-gray-200">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
-                </svg>
-            </button>
-        </div>
-    @endif
-
     {{-- Tabel --}}
     <div class="overflow-x-auto">
         <table class="w-full">
             <thead>
                 <tr class="bg-gradient-to-r from-slate-50 to-slate-100 border-b border-slate-200">
                     <th class="px-6 py-4 text-left text-xs font-semibold text-slate-700 uppercase tracking-wider">
-                        ID Hewan
+                        No
                     </th>
                     <th class="px-6 py-4 text-left text-xs font-semibold text-slate-700 uppercase tracking-wider">
                         Jenis Hewan
@@ -77,7 +46,7 @@
             <tbody class="divide-y divide-slate-200">
                 @foreach ($hewanlist as $row)
                 <tr class="hover:bg-slate-50 transition-colors duration-150">
-                    <td class="px-6 py-4">{{ $row->idjenis_hewan }}</td>
+                    <td class="px-6 py-4">{{ $loop->iteration }}</td>
                     <td class="px-6 py-4">{{ $row->nama_jenis_hewan }}</td>
                     <td class="px-6 py-4 text-center">
                         <div class="flex items-center justify-center gap-2">

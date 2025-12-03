@@ -11,19 +11,21 @@
 <body class="bg-gray-100"
     x-data="{ sidebarOpen: false }">
 
-    <div class="flex h-screen">
+    <div class="flex h-screen overflow-hidden">
 
         {{-- SIDEBAR --}}
         @include('layouts.partials.sidebar')
 
         {{-- MAIN CONTENT --}}
-        <div class="flex-1 flex flex-col">
+        <div class="flex-1 flex flex-col overflow-hidden">
+
+        @include('layouts.partials.flash')
 
             {{-- HEADER --}}
             @include('layouts.partials.header')
 
             {{-- PAGE CONTENT --}}
-            <main class="p-6">
+            <main class="flex-1 overflow-y-auto p-6">
                 @yield('content')
             </main>
 

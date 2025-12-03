@@ -73,17 +73,17 @@
             
             {{-- Dropdown Items --}}
             <div x-show="openDropdowns['dataMaster']" x-transition class="mt-1 ml-4 space-y-1">
-                <a href="#" @click="setActive('kodeTindakanTerapi')" class="flex items-center gap-3 px-4 py-2 rounded-lg text-sm text-slate-600 hover:bg-blue-100 hover:text-blue-700 transition-colors duration-200"
+                <a href="{{ route('Admin.TindakanTerapi.daftar-tindakan-terapi') }}" @click="setActive('kodeTindakanTerapi')" class="flex items-center gap-3 px-4 py-2 rounded-lg text-sm text-slate-600 hover:bg-blue-100 hover:text-blue-700 transition-colors duration-200"
                    :class="activeItem === 'kodeTindakanTerapi' ? 'bg-blue-100 text-blue-700 font-medium' : ''">
                     <span class="w-1.5 h-1.5 rounded-full" :class="activeItem === 'kodeTindakanTerapi' ? 'bg-blue-600' : 'bg-blue-400'"></span>
                     <span x-show="sidebarOpen">Kode Tindakan Terapi</span>
                 </a>
-                <a href="#" @click="setActive('kategori')" class="flex items-center gap-3 px-4 py-2 rounded-lg text-sm text-slate-600 hover:bg-blue-100 hover:text-blue-700 transition-colors duration-200"
+                <a href="{{ route('Admin.Kategori.daftar-kategori') }}" @click="setActive('kategori')" class="flex items-center gap-3 px-4 py-2 rounded-lg text-sm text-slate-600 hover:bg-blue-100 hover:text-blue-700 transition-colors duration-200"
                    :class="activeItem === 'kategori' ? 'bg-blue-100 text-blue-700 font-medium' : ''">
                     <span class="w-1.5 h-1.5 rounded-full" :class="activeItem === 'kategori' ? 'bg-blue-600' : 'bg-blue-400'"></span>
                     <span x-show="sidebarOpen">Kategori</span>
                 </a>
-                <a href="#" @click="setActive('kategoriKlinis')" class="flex items-center gap-3 px-4 py-2 rounded-lg text-sm text-slate-600 hover:bg-blue-100 hover:text-blue-700 transition-colors duration-200"
+                <a href="{{ route('Admin.KategoriKlinis.daftar-kategori-klinis') }}" @click="setActive('kategoriKlinis')" class="flex items-center gap-3 px-4 py-2 rounded-lg text-sm text-slate-600 hover:bg-blue-100 hover:text-blue-700 transition-colors duration-200"
                    :class="activeItem === 'kategoriKlinis' ? 'bg-blue-100 text-blue-700 font-medium' : ''">
                     <span class="w-1.5 h-1.5 rounded-full" :class="activeItem === 'kategoriKlinis' ? 'bg-blue-600' : 'bg-blue-400'"></span>
                     <span x-show="sidebarOpen">Kategori Klinis</span>
@@ -93,15 +93,10 @@
                     <span class="w-1.5 h-1.5 rounded-full" :class="activeItem === 'jenisHewan' ? 'bg-blue-600' : 'bg-blue-400'"></span>
                     <span x-show="sidebarOpen">Jenis Hewan</span>
                 </a>
-                <a href="#" @click="setActive('rasHewan')" class="flex items-center gap-3 px-4 py-2 rounded-lg text-sm text-slate-600 hover:bg-blue-100 hover:text-blue-700 transition-colors duration-200"
+                <a href="{{ route('Admin.RasHewan.daftar-ras-hewan') }}" @click="setActive('rasHewan')" class="flex items-center gap-3 px-4 py-2 rounded-lg text-sm text-slate-600 hover:bg-blue-100 hover:text-blue-700 transition-colors duration-200"
                    :class="activeItem === 'rasHewan' ? 'bg-blue-100 text-blue-700 font-medium' : ''">
                     <span class="w-1.5 h-1.5 rounded-full" :class="activeItem === 'rasHewan' ? 'bg-blue-600' : 'bg-blue-400'"></span>
                     <span x-show="sidebarOpen">Ras Hewan</span>
-                </a>
-                <a href="#" @click="setActive('petPasien')" class="flex items-center gap-3 px-4 py-2 rounded-lg text-sm text-slate-600 hover:bg-blue-100 hover:text-blue-700 transition-colors duration-200"
-                   :class="activeItem === 'petPasien' ? 'bg-blue-100 text-blue-700 font-medium' : ''">
-                    <span class="w-1.5 h-1.5 rounded-full" :class="activeItem === 'petPasien' ? 'bg-blue-600' : 'bg-blue-400'"></span>
-                    <span x-show="sidebarOpen">Pet (Pasien)</span>
                 </a>
             </div>
         </div>
@@ -130,6 +125,11 @@
                    :class="activeItem === 'pemilik' ? 'bg-blue-100 text-blue-700 font-medium' : ''">
                     <span class="w-1.5 h-1.5 rounded-full" :class="activeItem === 'pemilik' ? 'bg-blue-600' : 'bg-blue-400'"></span>
                     <span x-show="sidebarOpen">Pemilik</span>
+                </a>
+                    <a href="#" @click="setActive('petPasien')" class="flex items-center gap-3 px-4 py-2 rounded-lg text-sm text-slate-600 hover:bg-blue-100 hover:text-blue-700 transition-colors duration-200"
+                    :class="activeItem === 'petPasien' ? 'bg-blue-100 text-blue-700 font-medium' : ''">
+                    <span class="w-1.5 h-1.5 rounded-full" :class="activeItem === 'petPasien' ? 'bg-blue-600' : 'bg-blue-400'"></span>
+                    <span x-show="sidebarOpen">Pet (Pasien)</span>
                 </a>
                 <a href="#" @click="setActive('perawat')" class="flex items-center gap-3 px-4 py-2 rounded-lg text-sm text-slate-600 hover:bg-blue-100 hover:text-blue-700 transition-colors duration-200"
                    :class="activeItem === 'perawat' ? 'bg-blue-100 text-blue-700 font-medium' : ''">
@@ -165,12 +165,12 @@
             {{-- Dropdown Items --}}
             <div x-show="openDropdowns['transactional']" x-transition class="mt-1 ml-4 space-y-1">
                 <a href="#" @click="setActive('temuDokter')" class="flex items-center gap-3 px-4 py-2 rounded-lg text-sm text-slate-600 hover:bg-blue-100 hover:text-blue-700 transition-colors duration-200"
-                   :class="activeItem === 'temuDokter' ? 'bg-blue-100 text-blue-700 font-medium' : ''">
+                    :class="activeItem === 'temuDokter' ? 'bg-blue-100 text-blue-700 font-medium' : ''">
                     <span class="w-1.5 h-1.5 rounded-full" :class="activeItem === 'temuDokter' ? 'bg-blue-600' : 'bg-blue-400'"></span>
                     <span x-show="sidebarOpen">Temu Dokter</span>
                 </a>
                 <a href="#" @click="setActive('rekamMedis')" class="flex items-center gap-3 px-4 py-2 rounded-lg text-sm text-slate-600 hover:bg-blue-100 hover:text-blue-700 transition-colors duration-200"
-                   :class="activeItem === 'rekamMedis' ? 'bg-blue-100 text-blue-700 font-medium' : ''">
+                    :class="activeItem === 'rekamMedis' ? 'bg-blue-100 text-blue-700 font-medium' : ''">
                     <span class="w-1.5 h-1.5 rounded-full" :class="activeItem === 'rekamMedis' ? 'bg-blue-600' : 'bg-blue-400'"></span>
                     <span x-show="sidebarOpen">Rekam Medis</span>
                 </a>

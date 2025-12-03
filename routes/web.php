@@ -58,13 +58,34 @@ Route::put('JenisHewan/update-jenis-hewan/{id}', [JenisHewan_Controller::class, 
 Route::delete('JenisHewan/delete-jenis-hewan/{id}', [JenisHewan_Controller::class, 'delete_jenis_hewan'])->name('JenisHewan.delete-jenis-hewan');
 
 
-Route::get('Kategori/daftar-kategori', [Kategori_Controller::class, 'daftar_kategori'])->name('daftar-kategori');
+Route::get('Kategori/daftar-kategori', [Kategori_Controller::class, 'daftar_kategori'])->name('Kategori.daftar-kategori');
+Route::post('Kategori/store-kategori', [Kategori_Controller::class, 'store_kategori'])->name('Kategori.store-kategori');
+Route::put('Kategori/update-kategori/{id}', [Kategori_Controller::class, 'update_kategori'])->name('Kategori.update-kategori');
+Route::delete('Kategori/delete-kategori/{id}', [Kategori_Controller::class, 'delete_kategori'])->name('Kategori.delete-kategori');
+
+
+Route::get('KategoriKlinis/daftar-kategori-klinis', [KategoriKlinis_Controller::class, 'daftar_kategori_klinis'])->name('KategoriKlinis.daftar-kategori-klinis');
+Route::post('KategoriKlinis/store-kategori-klinis', [KategoriKlinis_Controller::class, 'store_kategori_klinis'])->name('KategoriKlinis.store-kategori-klinis');
+Route::put('KategoriKlinis/update-kategori-klinis/{id}', [KategoriKlinis_Controller::class, 'update_kategori_klinis'])->name('KategoriKlinis.update-kategori-klinis');
+Route::delete('KategoriKlinis/delete-kategori-klinis/{id}', [KategoriKlinis_Controller::class, 'delete_kategori_klinis'])->name('KategoriKlinis.delete-kategori-klinis');
+
+
 Route::get('daftar-kategori-klinis', [KategoriKlinis_Controller::class, 'daftar_kategori_klinis'])->name('daftar-kategori-klinis');
 Route::get('daftar-manajemen-role', [Role_Controller::class, 'daftar_manajemen_role'])->name('daftar-manajemen-role');
 Route::get('daftar-pemilik', [Pemilik_Controller::class, 'daftar_pemilik'])->name('daftar-pemilik');
 Route::get('daftar-pet', [Pet_Controller::class, 'daftar_pet'])->name('daftar-pet');
-Route::get('daftar-ras-hewan', [RasHewan_Controller::class, 'daftar_ras_hewan'])->name('daftar-ras-hewan');
-Route::get('daftar-tindakan-terapi', [TindakanTerapi_Controller::class, 'daftar_tindakan_terapi'])->name('daftar-tindakan-terapi');
+
+
+Route::get('RasHewan/daftar-ras-hewan', [RasHewan_Controller::class, 'daftar_ras_hewan'])->name('RasHewan.daftar-ras-hewan');
+Route::post('RasHewan/store-ras-hewan', [RasHewan_Controller::class, 'store_ras_hewan'])->name('RasHewan.store-ras-hewan');
+Route::put('RasHewan/update-ras-hewan/{id}', [RasHewan_Controller::class, 'update_ras_hewan'])->name('RasHewan.update-ras-hewan');
+Route::delete('RasHewan/delete-ras-hewan/{id}', [RasHewan_Controller::class, 'delete_ras_hewan'])->name('RasHewan.delete-ras-hewan');
+
+
+Route::get('TindakanTerapi/daftar-tindakan-terapi', [TindakanTerapi_Controller::class, 'daftar_tindakan_terapi'])->name('TindakanTerapi.daftar-tindakan-terapi');
+Route::post('TindakanTerapi/store-tindakan-terapi', [TindakanTerapi_Controller::class, 'store_tindakan_terapi'])->name('TindakanTerapi.store-tindakan-terapi');
+Route::put('TindakanTerapi/update-tindakan-terapi/{id}', [TindakanTerapi_Controller::class, 'update_tindakan_terapi'])->name('TindakanTerapi.update-tindakan-terapi');
+Route::delete('TindakanTerapi/delete-tindakan-terapi/{id}', [TindakanTerapi_Controller::class, 'delete_tindakan_terapi'])->name('TindakanTerapi.delete-tindakan-terapi');
 
 
 Route::get('User/daftar-user', [User_Controller::class, 'daftar_user'])->name('User.daftar-user');

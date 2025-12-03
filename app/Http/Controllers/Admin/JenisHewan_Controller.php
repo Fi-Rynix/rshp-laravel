@@ -69,6 +69,9 @@ class JenisHewan_Controller extends Controller
 
     public function delete_jenis_hewan($id) {
         $hewan = JenisHewan::find($id);
+        if ($hewan->rasHewan()->exists()) {
+            return redirect()->route('Admin.JenisHewan.daftar-jenis-hewan')->with('error', 'Jenis hewan ini memiliki ras hewan terkait dan tidak dapat dihapus.');
+        }
         $hewan->delete();
         return redirect()->route('Admin.JenisHewan.daftar-jenis-hewan')->with('success', 'Jenis hewan berhasil dihapus.');
     }

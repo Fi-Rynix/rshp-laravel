@@ -9,23 +9,29 @@ class RekamMedis extends Model
     protected $table = 'rekam_medis';
     protected $primaryKey = 'idrekam_medis';
     public $timestamps = true;
+    const UPDATED_AT = null;
 
     protected $fillable = [
         'anamesa',
         'temuan_klinis',
         'diagnosa',
-        'idpet',
-        'dokter_pemeriksa'
+        'dokter_pemeriksa',
+        'idreservasi_dokter'
     ];
 
-    public function pet()
+    public function roleUser()
     {
-        return $this->belongsTo(Pet::class, 'idpet', 'idpet');
+        return $this->belongsTo(RoleUser::class, 'idrole_user', 'dokter_pemeriksa');
+    }
+
+    public function temuDokter()
+    {
+        return $this->belongsTo(temuDokter::class, 'idreservasi_dokter', 'idreservasi_dokter');
     }
 
     public function detailRekamMedis()
     {
-        return $this->hasMany(DetailRekamMedis::class, 'idrekam_medis', 'idrekam_medis');
+        return $this->hasOne(DetailRekamMedis::class, 'idrekam_medis', 'idrekam_medis');
     }
 }
 
