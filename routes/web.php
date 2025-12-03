@@ -51,9 +51,9 @@ Route::middleware(['auth', 'IsAdmin'])->prefix('Admin')->name('Admin.')->group(f
 Route::get('dashboard-admin', [Dashboard_Controller::class, 'dashboard_admin'])->name('dashboard-admin');
 
 Route::get('JenisHewan/daftar-jenis-hewan', [JenisHewan_Controller::class, 'daftar_jenis_hewan' ])->name('JenisHewan.daftar-jenis-hewan');
-Route::get('JenisHewan/create-jenis-hewan', [JenisHewan_Controller::class, 'create_jenis_hewan'])->name('JenisHewan.create-jenis-hewan');
+// Route::get('JenisHewan/create-jenis-hewan', [JenisHewan_Controller::class, 'create_jenis_hewan'])->name('JenisHewan.create-jenis-hewan');
 Route::post('JenisHewan/store-jenis-hewan', [JenisHewan_Controller::class, 'store_jenis_hewan'])->name('JenisHewan.store-jenis-hewan');
-Route::get('JenisHewan/edit-jenis-hewan/{id}', [JenisHewan_Controller::class, 'edit_jenis_hewan'])->name('JenisHewan.edit-jenis-hewan');
+// Route::get('JenisHewan/edit-jenis-hewan/{id}', [JenisHewan_Controller::class, 'edit_jenis_hewan'])->name('JenisHewan.edit-jenis-hewan');
 Route::put('JenisHewan/update-jenis-hewan/{id}', [JenisHewan_Controller::class, 'update_jenis_hewan'])->name('JenisHewan.update-jenis-hewan');
 Route::delete('JenisHewan/delete-jenis-hewan/{id}', [JenisHewan_Controller::class, 'delete_jenis_hewan'])->name('JenisHewan.delete-jenis-hewan');
 
@@ -65,7 +65,16 @@ Route::get('daftar-pemilik', [Pemilik_Controller::class, 'daftar_pemilik'])->nam
 Route::get('daftar-pet', [Pet_Controller::class, 'daftar_pet'])->name('daftar-pet');
 Route::get('daftar-ras-hewan', [RasHewan_Controller::class, 'daftar_ras_hewan'])->name('daftar-ras-hewan');
 Route::get('daftar-tindakan-terapi', [TindakanTerapi_Controller::class, 'daftar_tindakan_terapi'])->name('daftar-tindakan-terapi');
-Route::get('daftar-user', [User_Controller::class, 'daftar_user'])->name('daftar-user');
+
+
+Route::get('User/daftar-user', [User_Controller::class, 'daftar_user'])->name('User.daftar-user');
+Route::post('User/store-user', [User_Controller::class, 'store_user'])->name('User.store-user');
+Route::put('User/update-user/{id}', [User_Controller::class, 'update_user'])->name('User.update-user');
+Route::delete('User/delete-user/{id}', [User_Controller::class, 'delete_user'])->name('User.delete-user');
+Route::put('User/reset-password/{id}', [User_Controller::class, 'reset_password'])->name('User.reset-password');
+Route::put('User/random-password/{id}', [User_Controller::class, 'random_password_update'])->name('User.random-password');
+
+
 });
 
 

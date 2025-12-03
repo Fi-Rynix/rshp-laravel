@@ -121,7 +121,7 @@
             
             {{-- Dropdown Items --}}
             <div x-show="openDropdowns['dataUser']" x-transition class="mt-1 ml-4 space-y-1">
-                <a href="#" @click="setActive('user')" class="flex items-center gap-3 px-4 py-2 rounded-lg text-sm text-slate-600 hover:bg-blue-100 hover:text-blue-700 transition-colors duration-200"
+                <a href="{{ route('Admin.User.daftar-user') }}" @click="setActive('user')" class="flex items-center gap-3 px-4 py-2 rounded-lg text-sm text-slate-600 hover:bg-blue-100 hover:text-blue-700 transition-colors duration-200"
                    :class="activeItem === 'user' ? 'bg-blue-100 text-blue-700 font-medium' : ''">
                     <span class="w-1.5 h-1.5 rounded-full" :class="activeItem === 'user' ? 'bg-blue-600' : 'bg-blue-400'"></span>
                     <span x-show="sidebarOpen">User</span>

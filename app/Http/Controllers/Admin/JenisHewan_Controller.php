@@ -44,9 +44,9 @@ class JenisHewan_Controller extends Controller
         return view('Admin.JenisHewan.daftar-jenis-hewan', compact('hewanlist'));
     }
 
-    public function create_jenis_hewan() {
-        return view('Admin.JenisHewan.create-jenis-hewan');
-    }
+    // public function create_jenis_hewan() {
+    //     return view('Admin.JenisHewan.create-jenis-hewan');
+    // }
 
     public function store_jenis_hewan(Request $request) {
         $validated = $this->validate_jenis_hewan($request);
@@ -54,10 +54,10 @@ class JenisHewan_Controller extends Controller
         return redirect()->route('Admin.JenisHewan.daftar-jenis-hewan')->with('success', 'Jenis hewan berhasil ditambahkan.');
     }
 
-    public function edit_jenis_hewan($id) {
-        $hewan = JenisHewan::find($id);
-        return view('Admin.JenisHewan.edit-jenis-hewan', compact('hewan'));
-    }
+    // public function edit_jenis_hewan($id) {
+    //     $hewan = JenisHewan::find($id);
+    //     return view('Admin.JenisHewan.edit-jenis-hewan', compact('hewan'));
+    // }
 
     public function update_jenis_hewan(Request $request, $id) {
         $this->validate_jenis_hewan($request, $id);
@@ -65,6 +65,12 @@ class JenisHewan_Controller extends Controller
         $hewan->nama_jenis_hewan = $this->format_nama_jenis_hewan($request->input('nama_jenis_hewan'));
         $hewan->save();
         return redirect()->route('Admin.JenisHewan.daftar-jenis-hewan')->with('success', 'Jenis hewan berhasil diperbarui.');
+    }
+
+    public function delete_jenis_hewan($id) {
+        $hewan = JenisHewan::find($id);
+        $hewan->delete();
+        return redirect()->route('Admin.JenisHewan.daftar-jenis-hewan')->with('success', 'Jenis hewan berhasil dihapus.');
     }
 }
 

@@ -1,48 +1,148 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Data User</title>
-    <link rel="stylesheet" href="{{ asset('CSS/daftar.css') }}">
-</head>
+@extends('layouts.app')
 
-<body>
-    @include('partials.navbar-admin')
+@section('title', 'Data User')
 
-    <main>
-        <button>
-            <a href="">Tambah User</a>
+@section('content')
+
+{{-- Header --}}
+<div class="mb-6">
+    <h1 class="text-2xl font-bold text-slate-800 mb-2">Kelola Data User</h1>
+</div>
+
+{{-- Container --}}
+<div class="bg-white rounded-lg shadow-md border border-slate-200">
+
+    <div class="p-6 border-b border-slate-200 flex justify-between items-center">
+        <h2 class="text-lg font-semibold text-slate-800">Daftar User</h2>
+
+        {{-- Tombol Tambah User --}}
+        <button
+            command="show-modal"
+            commandfor="modalCreate"
+            class="inline-flex items-center gap-2 px-5 py-2.5
+                bg-gradient-to-r from-blue-500 to-blue-600
+                text-white rounded-lg hover:from-blue-600 hover:to-blue-700
+                transition-all duration-200 shadow-md hover:shadow-lg">
+
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+            </svg>
+
+            <span class="font-medium">Tambah User</span>
         </button>
+    </div>
 
-        <table>
+    {{-- Flash Message Modern --}}
+    @if (session('success'))
+        <div
+            x-data="{ show: true }"
+            x-show="show"
+            x-init="setTimeout(() => show = false, 5000)"
+            x-transition:enter="transform transition ease-out duration-300"
+            x-transition:enter-start="-translate-y-10 opacity-0"
+            x-transition:enter-end="translate-y-0 opacity-100"
+            x-transition:leave="transform transition ease-in duration-300"
+            x-transition:leave-start="translate-y-0 opacity-100"
+            x-transition:leave-end="-translate-y-10 opacity-0"
+            class="fixed top-4 right-4 z-[9999] flex items-center gap-3 px-5 py-3 bg-green-600 text-white rounded-xl shadow-lg"
+        >
+            {{-- Icon --}}
+            <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
+            </svg>
+
+            {{-- Pesan --}}
+            <span class="font-medium">{{ session('success') }}</span>
+
+            {{-- Close button --}}
+            <button type="button" @click="show = false" class="ml-auto text-white hover:text-gray-200">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+        </div>
+    @endif
+
+
+    {{-- Tabel --}}
+    <div class="overflow-x-auto">
+        <table class="w-full">
             <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nama</th>
-                    <th>Email</th>
-                    <th>Aksi</th>
+                <tr class="bg-gradient-to-r from-slate-50 to-slate-100 border-b border-slate-200">
+                    <th class="px-6 py-4 text-left text-xs font-semibold text-slate-700 uppercase tracking-wider">ID</th>
+                    <th class="px-6 py-4 text-left text-xs font-semibold text-slate-700 uppercase tracking-wider">Nama</th>
+                    <th class="px-6 py-4 text-left text-xs font-semibold text-slate-700 uppercase tracking-wider">Email</th>
+                    <th class="px-6 py-4 text-center text-xs font-semibold text-slate-700 uppercase tracking-wider">Aksi</th>
                 </tr>
             </thead>
 
-            <tbody>
-                @foreach($userlist as $row)
-                    <tr>
-                        <td>{{ $row->iduser }}</td>
-                        <td>{{ $row->nama }}</td>
-                        <td>{{ $row->email }}</td>
-                        <td>
-                            <a href="">Edit</a>
-                            <a href="">Reset Password</a>
-                            <a href="">Password Random</a>
-                            <a href=""
-                            onclick="return confirm('Yakin hapus user ini?')">
-                            Hapus
-                            </a>
-                        </td>
-                    </tr>
+            <tbody class="divide-y divide-slate-200">
+                @foreach ($userlist as $row)
+                <tr class="hover:bg-slate-50 transition-colors duration-150">
+                    <td class="px-6 py-4">{{ $row->iduser }}</td>
+                    <td class="px-6 py-4">{{ $row->nama }}</td>
+                    <td class="px-6 py-4">{{ $row->email }}</td>
+
+                    <td class="px-6 py-4 text-center">
+                        <div class="flex items-center justify-center gap-2">
+
+                            {{-- Edit --}}
+                            <button
+                                command="show-modal"
+                                commandfor="modalEdit-{{ $row->iduser }}"
+                                class="inline-flex items-center gap-1.5 px-3 py-1.5
+                                    bg-teal-500 text-white text-sm font-medium
+                                    rounded-md hover:bg-teal-600 transition shadow-sm hover:shadow">
+                                Edit
+                            </button>
+
+                            {{-- Reset Password --}}
+                            <button
+                                command="show-modal"
+                                commandfor="modalResetPassword-{{ $row->iduser }}"
+                                class="inline-flex items-center gap-1.5 px-3 py-1.5
+                                    bg-indigo-500 text-white text-sm font-medium
+                                    rounded-md hover:bg-indigo-600 transition shadow-sm hover:shadow">
+                                Reset Password
+                            </button>
+
+                            {{-- Password Random --}}
+                            <button
+                                command="show-modal"
+                                commandfor="modalRandomPassword-{{ $row->iduser }}"
+                                class="inline-flex items-center gap-1.5 px-3 py-1.5
+                                    bg-purple-500 text-white text-sm font-medium
+                                    rounded-md hover:bg-purple-600 transition shadow-sm hover:shadow">
+                                Generate
+                            </button>
+
+                            {{-- Delete --}}
+                            <button
+                                command="show-modal"
+                                commandfor="modalDelete-{{ $row->iduser }}"
+                                class="inline-flex items-center gap-1.5 px-3 py-1.5
+                                    bg-red-500 text-white text-sm font-medium
+                                    rounded-md hover:bg-red-600 transition shadow-sm hover:shadow">
+                                Hapus
+                            </button>
+
+                        </div>
+                    </td>
+                </tr>
+
+                @include('Admin.User.edit-user', ['row' => $row])
+                @include('Admin.User.reset-password', ['row' => $row])
+                @include('Admin.User.random-password', ['row' => $row])
+                @include('Admin.User.delete-user', ['row' => $row])
+
                 @endforeach
             </tbody>
         </table>
-    </main>
-</body>
-</html>
+    </div>
+
+</div>
+
+@include('Admin.User.create-user')
+
+@endsection
