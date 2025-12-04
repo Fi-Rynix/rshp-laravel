@@ -9,14 +9,28 @@
 
                 <h2 class="text-xl font-semibold mb-4">Edit Kategori Klinis</h2>
 
+                @if ($errors->any())
+                    <div class="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg">
+                        <p class="text-red-800 text-sm font-semibold mb-2">Terjadi kesalahan validasi:</p>
+                        <ul class="list-disc list-inside space-y-1">
+                            @foreach ($errors->all() as $error)
+                                <li class="text-red-700 text-sm">{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
                 <form action="{{ route('Admin.KategoriKlinis.update-kategori-klinis', $row->idkategori_klinis) }}" method="POST">
                     @csrf
                     @method('PUT')
 
                     <div class="mb-4">
                         <label class="block mb-1 text-sm text-slate-700 font-medium">Nama Kategori Klinis</label>
-                        <input type="text" name="nama_kategori_klinis" value="{{ $row->nama_kategori_klinis }}"
-                              class="w-full rounded-md border border-slate-300 p-2 focus:ring-blue-500 focus:border-blue-500">
+                        <input type="text" name="nama_kategori_klinis" value="{{ old('nama_kategori_klinis', $row->nama_kategori_klinis) }}"
+                              class="w-full rounded-md border p-2 transition @error('nama_kategori_klinis') border-red-500 focus:ring-red-500 @else border-slate-300 focus:ring-blue-500 @enderror focus:border-transparent focus:ring-2">
+                        @error('nama_kategori_klinis')
+                            <p class="text-red-600 text-xs mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <div class="flex justify-end gap-2 mt-6">

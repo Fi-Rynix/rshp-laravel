@@ -22,6 +22,10 @@ use App\Http\Controllers\Admin\Pet_Controller;
 use App\Http\Controllers\Admin\RasHewan_Controller;
 use App\Http\Controllers\Admin\TindakanTerapi_Controller;
 use App\Http\Controllers\Admin\User_Controller;
+use App\Http\Controllers\Admin\Dokter_Controller;
+use App\Http\Controllers\Admin\Perawat_Controller;
+use App\Http\Controllers\Admin\TemuDokter_Controller;
+use App\Http\Controllers\Admin\RekamMedis_Controller;
 
 
 Route::get('/', function () {
@@ -51,9 +55,7 @@ Route::middleware(['auth', 'IsAdmin'])->prefix('Admin')->name('Admin.')->group(f
 Route::get('dashboard-admin', [Dashboard_Controller::class, 'dashboard_admin'])->name('dashboard-admin');
 
 Route::get('JenisHewan/daftar-jenis-hewan', [JenisHewan_Controller::class, 'daftar_jenis_hewan' ])->name('JenisHewan.daftar-jenis-hewan');
-// Route::get('JenisHewan/create-jenis-hewan', [JenisHewan_Controller::class, 'create_jenis_hewan'])->name('JenisHewan.create-jenis-hewan');
 Route::post('JenisHewan/store-jenis-hewan', [JenisHewan_Controller::class, 'store_jenis_hewan'])->name('JenisHewan.store-jenis-hewan');
-// Route::get('JenisHewan/edit-jenis-hewan/{id}', [JenisHewan_Controller::class, 'edit_jenis_hewan'])->name('JenisHewan.edit-jenis-hewan');
 Route::put('JenisHewan/update-jenis-hewan/{id}', [JenisHewan_Controller::class, 'update_jenis_hewan'])->name('JenisHewan.update-jenis-hewan');
 Route::delete('JenisHewan/delete-jenis-hewan/{id}', [JenisHewan_Controller::class, 'delete_jenis_hewan'])->name('JenisHewan.delete-jenis-hewan');
 
@@ -70,10 +72,32 @@ Route::put('KategoriKlinis/update-kategori-klinis/{id}', [KategoriKlinis_Control
 Route::delete('KategoriKlinis/delete-kategori-klinis/{id}', [KategoriKlinis_Controller::class, 'delete_kategori_klinis'])->name('KategoriKlinis.delete-kategori-klinis');
 
 
-Route::get('daftar-kategori-klinis', [KategoriKlinis_Controller::class, 'daftar_kategori_klinis'])->name('daftar-kategori-klinis');
-Route::get('daftar-manajemen-role', [Role_Controller::class, 'daftar_manajemen_role'])->name('daftar-manajemen-role');
-Route::get('daftar-pemilik', [Pemilik_Controller::class, 'daftar_pemilik'])->name('daftar-pemilik');
-Route::get('daftar-pet', [Pet_Controller::class, 'daftar_pet'])->name('daftar-pet');
+Route::get('ManajemenRole/daftar-manajemen-role', [Role_Controller::class, 'daftar_manajemen_role'])->name('ManajemenRole.daftar-manajemen-role');
+Route::put('ManajemenRole/update-manajemen-role/{id}', [Role_Controller::class, 'update_manajemen_role'])->name('ManajemenRole.update-manajemen-role');
+
+
+Route::get('Pemilik/daftar-pemilik', [Pemilik_Controller::class, 'daftar_pemilik'])->name('Pemilik.daftar-pemilik');
+Route::post('Pemilik/store-pemilik', [Pemilik_Controller::class, 'store_pemilik'])->name('Pemilik.store-pemilik');
+Route::put('Pemilik/update-pemilik/{id}', [Pemilik_Controller::class, 'update_pemilik'])->name('Pemilik.update-pemilik');
+Route::delete('Pemilik/delete-pemilik/{id}', [Pemilik_Controller::class, 'delete_pemilik'])->name('Pemilik.delete-pemilik');
+
+
+Route::get('Pet/daftar-pet', [Pet_Controller::class, 'daftar_pet'])->name('Pet.daftar-pet');
+Route::post('Pet/store-pet', [Pet_Controller::class, 'store_pet'])->name('Pet.store-pet');
+Route::put('Pet/update-pet/{id}', [Pet_Controller::class, 'update_pet'])->name('Pet.update-pet');
+Route::delete('Pet/delete-pet/{id}', [Pet_Controller::class, 'delete_pet'])->name('Pet.delete-pet');
+
+
+Route::get('Dokter/daftar-dokter', [Dokter_Controller::class, 'daftar_dokter'])->name('Dokter.daftar-dokter');
+Route::post('Dokter/store-dokter', [Dokter_Controller::class, 'store_dokter'])->name('Dokter.store-dokter');
+Route::put('Dokter/update-dokter/{id}', [Dokter_Controller::class, 'update_dokter'])->name('Dokter.update-dokter');
+Route::delete('Dokter/delete-dokter/{id}', [Dokter_Controller::class, 'delete_dokter'])->name('Dokter.delete-dokter');
+
+
+Route::get('Perawat/daftar-perawat', [Perawat_Controller::class, 'daftar_perawat'])->name('Perawat.daftar-perawat');
+Route::post('Perawat/store-perawat', [Perawat_Controller::class, 'store_perawat'])->name('Perawat.store-perawat');
+Route::put('Perawat/update-perawat/{id}', [Perawat_Controller::class, 'update_perawat'])->name('Perawat.update-perawat');
+Route::delete('Perawat/delete-perawat/{id}', [Perawat_Controller::class, 'delete_perawat'])->name('Perawat.delete-perawat');
 
 
 Route::get('RasHewan/daftar-ras-hewan', [RasHewan_Controller::class, 'daftar_ras_hewan'])->name('RasHewan.daftar-ras-hewan');
@@ -88,12 +112,23 @@ Route::put('TindakanTerapi/update-tindakan-terapi/{id}', [TindakanTerapi_Control
 Route::delete('TindakanTerapi/delete-tindakan-terapi/{id}', [TindakanTerapi_Controller::class, 'delete_tindakan_terapi'])->name('TindakanTerapi.delete-tindakan-terapi');
 
 
+Route::get('TemuDokter/daftar-temu-dokter', [TemuDokter_Controller::class, 'daftar_temu_dokter'])->name('TemuDokter.daftar-temu-dokter');
+Route::post('TemuDokter/store-temu-dokter', [TemuDokter_Controller::class, 'store_temu_dokter'])->name('TemuDokter.store-temu-dokter');
+Route::put('TemuDokter/cancel-temu-dokter/{id}', [TemuDokter_Controller::class, 'cancel_temu_dokter'])->name('TemuDokter.cancel-temu-dokter');
+
+
 Route::get('User/daftar-user', [User_Controller::class, 'daftar_user'])->name('User.daftar-user');
 Route::post('User/store-user', [User_Controller::class, 'store_user'])->name('User.store-user');
 Route::put('User/update-user/{id}', [User_Controller::class, 'update_user'])->name('User.update-user');
 Route::delete('User/delete-user/{id}', [User_Controller::class, 'delete_user'])->name('User.delete-user');
 Route::put('User/reset-password/{id}', [User_Controller::class, 'reset_password'])->name('User.reset-password');
 Route::put('User/random-password/{id}', [User_Controller::class, 'random_password_update'])->name('User.random-password');
+
+
+Route::get('RekamMedis/daftar-rekam-medis', [RekamMedis_Controller::class, 'daftar_rekam_medis'])->name('RekamMedis.daftar-rekam-medis');
+Route::post('RekamMedis/store-rekam-medis', [RekamMedis_Controller::class, 'store_rekam_medis'])->name('RekamMedis.store-rekam-medis');
+Route::put('RekamMedis/update-rekam-medis/{id}', [RekamMedis_Controller::class, 'update_rekam_medis'])->name('RekamMedis.update-rekam-medis');
+Route::delete('RekamMedis/delete-rekam-medis/{id}', [RekamMedis_Controller::class, 'delete_rekam_medis'])->name('RekamMedis.delete-rekam-medis');
 
 
 });

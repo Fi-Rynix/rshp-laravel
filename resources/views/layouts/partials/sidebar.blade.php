@@ -48,10 +48,10 @@
     <nav class="flex-1 mt-2 px-3 space-y-1 overflow-y-auto">
 
         {{-- Dashboard --}}
-        <a href="#"
-           @click="setActive('dashboard')"
-           class="flex items-center gap-4 px-4 py-3 rounded-lg transition-all duration-200 text-slate-700 hover:bg-blue-50 hover:text-blue-700 hover:shadow-sm group"
-           :class="activeItem === 'dashboard' ? 'bg-blue-100 text-blue-700 shadow-sm' : ''">
+        <a href="{{ route('Admin.dashboard-admin') }}"
+            @click="setActive('dashboard')"
+            class="flex items-center gap-4 px-4 py-3 rounded-lg transition-all duration-200 text-slate-700 hover:bg-blue-50 hover:text-blue-700 hover:shadow-sm group"
+            :class="activeItem === 'dashboard' ? 'bg-blue-100 text-blue-700 shadow-sm' : ''">
             <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-3m0 0l7-4 7 4M5 9v10a1 1 0 001 1h12a1 1 0 001-1V9m-9 11l4-4m0 0l4 4m-4-4v4"></path>
             </svg>
@@ -74,27 +74,27 @@
             {{-- Dropdown Items --}}
             <div x-show="openDropdowns['dataMaster']" x-transition class="mt-1 ml-4 space-y-1">
                 <a href="{{ route('Admin.TindakanTerapi.daftar-tindakan-terapi') }}" @click="setActive('kodeTindakanTerapi')" class="flex items-center gap-3 px-4 py-2 rounded-lg text-sm text-slate-600 hover:bg-blue-100 hover:text-blue-700 transition-colors duration-200"
-                   :class="activeItem === 'kodeTindakanTerapi' ? 'bg-blue-100 text-blue-700 font-medium' : ''">
+                    :class="activeItem === 'kodeTindakanTerapi' ? 'bg-blue-100 text-blue-700 font-medium' : ''">
                     <span class="w-1.5 h-1.5 rounded-full" :class="activeItem === 'kodeTindakanTerapi' ? 'bg-blue-600' : 'bg-blue-400'"></span>
                     <span x-show="sidebarOpen">Kode Tindakan Terapi</span>
                 </a>
                 <a href="{{ route('Admin.Kategori.daftar-kategori') }}" @click="setActive('kategori')" class="flex items-center gap-3 px-4 py-2 rounded-lg text-sm text-slate-600 hover:bg-blue-100 hover:text-blue-700 transition-colors duration-200"
-                   :class="activeItem === 'kategori' ? 'bg-blue-100 text-blue-700 font-medium' : ''">
+                    :class="activeItem === 'kategori' ? 'bg-blue-100 text-blue-700 font-medium' : ''">
                     <span class="w-1.5 h-1.5 rounded-full" :class="activeItem === 'kategori' ? 'bg-blue-600' : 'bg-blue-400'"></span>
                     <span x-show="sidebarOpen">Kategori</span>
                 </a>
                 <a href="{{ route('Admin.KategoriKlinis.daftar-kategori-klinis') }}" @click="setActive('kategoriKlinis')" class="flex items-center gap-3 px-4 py-2 rounded-lg text-sm text-slate-600 hover:bg-blue-100 hover:text-blue-700 transition-colors duration-200"
-                   :class="activeItem === 'kategoriKlinis' ? 'bg-blue-100 text-blue-700 font-medium' : ''">
+                    :class="activeItem === 'kategoriKlinis' ? 'bg-blue-100 text-blue-700 font-medium' : ''">
                     <span class="w-1.5 h-1.5 rounded-full" :class="activeItem === 'kategoriKlinis' ? 'bg-blue-600' : 'bg-blue-400'"></span>
                     <span x-show="sidebarOpen">Kategori Klinis</span>
                 </a>
                 <a href="{{ route('Admin.JenisHewan.daftar-jenis-hewan') }}" @click="setActive('jenisHewan')" class="flex items-center gap-3 px-4 py-2 rounded-lg text-sm text-slate-600 hover:bg-blue-100 hover:text-blue-700 transition-colors duration-200"
-                   :class="activeItem === 'jenisHewan' ? 'bg-blue-100 text-blue-700 font-medium' : ''">
+                    :class="activeItem === 'jenisHewan' ? 'bg-blue-100 text-blue-700 font-medium' : ''">
                     <span class="w-1.5 h-1.5 rounded-full" :class="activeItem === 'jenisHewan' ? 'bg-blue-600' : 'bg-blue-400'"></span>
                     <span x-show="sidebarOpen">Jenis Hewan</span>
                 </a>
                 <a href="{{ route('Admin.RasHewan.daftar-ras-hewan') }}" @click="setActive('rasHewan')" class="flex items-center gap-3 px-4 py-2 rounded-lg text-sm text-slate-600 hover:bg-blue-100 hover:text-blue-700 transition-colors duration-200"
-                   :class="activeItem === 'rasHewan' ? 'bg-blue-100 text-blue-700 font-medium' : ''">
+                    :class="activeItem === 'rasHewan' ? 'bg-blue-100 text-blue-700 font-medium' : ''">
                     <span class="w-1.5 h-1.5 rounded-full" :class="activeItem === 'rasHewan' ? 'bg-blue-600' : 'bg-blue-400'"></span>
                     <span x-show="sidebarOpen">Ras Hewan</span>
                 </a>
@@ -103,7 +103,7 @@
 
         {{-- Data User Dropdown --}}
         <div>
-            <button 
+            <button
                 @click="toggleDropdown('dataUser'); setActive('dataUser'); if (!sidebarOpen) { sidebarOpen = true; }"
                 class="w-full flex items-center gap-4 px-4 py-3 rounded-lg transition-all duration-200 text-slate-700 hover:bg-blue-50 hover:text-blue-700 hover:shadow-sm group"
                 :class="activeItem === 'dataUser' ? 'bg-blue-100 text-blue-700 shadow-sm' : ''">
@@ -117,32 +117,32 @@
             {{-- Dropdown Items --}}
             <div x-show="openDropdowns['dataUser']" x-transition class="mt-1 ml-4 space-y-1">
                 <a href="{{ route('Admin.User.daftar-user') }}" @click="setActive('user')" class="flex items-center gap-3 px-4 py-2 rounded-lg text-sm text-slate-600 hover:bg-blue-100 hover:text-blue-700 transition-colors duration-200"
-                   :class="activeItem === 'user' ? 'bg-blue-100 text-blue-700 font-medium' : ''">
+                    :class="activeItem === 'user' ? 'bg-blue-100 text-blue-700 font-medium' : ''">
                     <span class="w-1.5 h-1.5 rounded-full" :class="activeItem === 'user' ? 'bg-blue-600' : 'bg-blue-400'"></span>
                     <span x-show="sidebarOpen">User</span>
                 </a>
-                <a href="#" @click="setActive('pemilik')" class="flex items-center gap-3 px-4 py-2 rounded-lg text-sm text-slate-600 hover:bg-blue-100 hover:text-blue-700 transition-colors duration-200"
-                   :class="activeItem === 'pemilik' ? 'bg-blue-100 text-blue-700 font-medium' : ''">
+                <a href="{{ route('Admin.Pemilik.daftar-pemilik') }}" @click="setActive('pemilik')" class="flex items-center gap-3 px-4 py-2 rounded-lg text-sm text-slate-600 hover:bg-blue-100 hover:text-blue-700 transition-colors duration-200"
+                    :class="activeItem === 'pemilik' ? 'bg-blue-100 text-blue-700 font-medium' : ''">
                     <span class="w-1.5 h-1.5 rounded-full" :class="activeItem === 'pemilik' ? 'bg-blue-600' : 'bg-blue-400'"></span>
                     <span x-show="sidebarOpen">Pemilik</span>
                 </a>
-                    <a href="#" @click="setActive('petPasien')" class="flex items-center gap-3 px-4 py-2 rounded-lg text-sm text-slate-600 hover:bg-blue-100 hover:text-blue-700 transition-colors duration-200"
+                    <a href="{{ route('Admin.Pet.daftar-pet') }}" @click="setActive('petPasien')" class="flex items-center gap-3 px-4 py-2 rounded-lg text-sm text-slate-600 hover:bg-blue-100 hover:text-blue-700 transition-colors duration-200"
                     :class="activeItem === 'petPasien' ? 'bg-blue-100 text-blue-700 font-medium' : ''">
                     <span class="w-1.5 h-1.5 rounded-full" :class="activeItem === 'petPasien' ? 'bg-blue-600' : 'bg-blue-400'"></span>
                     <span x-show="sidebarOpen">Pet (Pasien)</span>
                 </a>
-                <a href="#" @click="setActive('perawat')" class="flex items-center gap-3 px-4 py-2 rounded-lg text-sm text-slate-600 hover:bg-blue-100 hover:text-blue-700 transition-colors duration-200"
-                   :class="activeItem === 'perawat' ? 'bg-blue-100 text-blue-700 font-medium' : ''">
+                <a href="{{ route('Admin.Perawat.daftar-perawat') }}" @click="setActive('perawat')" class="flex items-center gap-3 px-4 py-2 rounded-lg text-sm text-slate-600 hover:bg-blue-100 hover:text-blue-700 transition-colors duration-200"
+                    :class="activeItem === 'perawat' ? 'bg-blue-100 text-blue-700 font-medium' : ''">
                     <span class="w-1.5 h-1.5 rounded-full" :class="activeItem === 'perawat' ? 'bg-blue-600' : 'bg-blue-400'"></span>
                     <span x-show="sidebarOpen">Perawat</span>
                 </a>
-                <a href="#" @click="setActive('dokter')" class="flex items-center gap-3 px-4 py-2 rounded-lg text-sm text-slate-600 hover:bg-blue-100 hover:text-blue-700 transition-colors duration-200"
-                   :class="activeItem === 'dokter' ? 'bg-blue-100 text-blue-700 font-medium' : ''">
+                <a href="{{ route('Admin.Dokter.daftar-dokter') }}" @click="setActive('dokter')" class="flex items-center gap-3 px-4 py-2 rounded-lg text-sm text-slate-600 hover:bg-blue-100 hover:text-blue-700 transition-colors duration-200"
+                    :class="activeItem === 'dokter' ? 'bg-blue-100 text-blue-700 font-medium' : ''">
                     <span class="w-1.5 h-1.5 rounded-full" :class="activeItem === 'dokter' ? 'bg-blue-600' : 'bg-blue-400'"></span>
                     <span x-show="sidebarOpen">Dokter</span>
                 </a>
-                <a href="#" @click="setActive('manajemenRole')" class="flex items-center gap-3 px-4 py-2 rounded-lg text-sm text-slate-600 hover:bg-blue-100 hover:text-blue-700 transition-colors duration-200"
-                   :class="activeItem === 'manajemenRole' ? 'bg-blue-100 text-blue-700 font-medium' : ''">
+                <a href="{{ route('Admin.ManajemenRole.daftar-manajemen-role') }}" @click="setActive('manajemenRole')" class="flex items-center gap-3 px-4 py-2 rounded-lg text-sm text-slate-600 hover:bg-blue-100 hover:text-blue-700 transition-colors duration-200"
+                    :class="activeItem === 'manajemenRole' ? 'bg-blue-100 text-blue-700 font-medium' : ''">
                     <span class="w-1.5 h-1.5 rounded-full" :class="activeItem === 'manajemenRole' ? 'bg-blue-600' : 'bg-blue-400'"></span>
                     <span x-show="sidebarOpen">Manajemen Role</span>
                 </a>
@@ -151,7 +151,7 @@
 
         {{-- Transactional Dropdown --}}
         <div>
-            <button 
+            <button
                 @click="toggleDropdown('transactional'); setActive('transactional'); if (!sidebarOpen) { sidebarOpen = true; }"
                 class="w-full flex items-center gap-4 px-4 py-3 rounded-lg transition-all duration-200 text-slate-700 hover:bg-blue-50 hover:text-blue-700 hover:shadow-sm group"
                 :class="activeItem === 'transactional' ? 'bg-blue-100 text-blue-700 shadow-sm' : ''">
@@ -164,12 +164,12 @@
             
             {{-- Dropdown Items --}}
             <div x-show="openDropdowns['transactional']" x-transition class="mt-1 ml-4 space-y-1">
-                <a href="#" @click="setActive('temuDokter')" class="flex items-center gap-3 px-4 py-2 rounded-lg text-sm text-slate-600 hover:bg-blue-100 hover:text-blue-700 transition-colors duration-200"
+                <a href="{{ route('Admin.TemuDokter.daftar-temu-dokter') }}" @click="setActive('temuDokter')" class="flex items-center gap-3 px-4 py-2 rounded-lg text-sm text-slate-600 hover:bg-blue-100 hover:text-blue-700 transition-colors duration-200"
                     :class="activeItem === 'temuDokter' ? 'bg-blue-100 text-blue-700 font-medium' : ''">
                     <span class="w-1.5 h-1.5 rounded-full" :class="activeItem === 'temuDokter' ? 'bg-blue-600' : 'bg-blue-400'"></span>
                     <span x-show="sidebarOpen">Temu Dokter</span>
                 </a>
-                <a href="#" @click="setActive('rekamMedis')" class="flex items-center gap-3 px-4 py-2 rounded-lg text-sm text-slate-600 hover:bg-blue-100 hover:text-blue-700 transition-colors duration-200"
+                <a href="{{ route('Admin.RekamMedis.daftar-rekam-medis') }}" @click="setActive('rekamMedis')" class="flex items-center gap-3 px-4 py-2 rounded-lg text-sm text-slate-600 hover:bg-blue-100 hover:text-blue-700 transition-colors duration-200"
                     :class="activeItem === 'rekamMedis' ? 'bg-blue-100 text-blue-700 font-medium' : ''">
                     <span class="w-1.5 h-1.5 rounded-full" :class="activeItem === 'rekamMedis' ? 'bg-blue-600' : 'bg-blue-400'"></span>
                     <span x-show="sidebarOpen">Rekam Medis</span>

@@ -21,6 +21,7 @@
         <table class="w-full">
             <thead>
                 <tr class="bg-gradient-to-r from-slate-50 to-slate-100 border-b border-slate-200">
+                    <th class="px-6 py-4 text-left text-xs font-semibold text-slate-700 uppercase tracking-wider">No</th>
                     <th class="px-6 py-4 text-left text-xs font-semibold text-slate-700 uppercase tracking-wider">Jenis Hewan</th>
                     <th class="px-6 py-4 text-left text-xs font-semibold text-slate-700 uppercase tracking-wider">Ras Hewan</th>
                     <th class="px-6 py-4 text-center text-xs font-semibold text-slate-700 uppercase tracking-wider">Aksi</th>
@@ -29,6 +30,7 @@
             <tbody class="divide-y divide-slate-200">
                 @foreach($hewanRasList as $jenis)
                     <tr class="hover:bg-slate-50 transition-colors duration-150">
+                        <td class="px-6 py-4">{{ $loop->iteration }}</td>
                         <td class="px-6 py-4">{{ $jenis->nama_jenis_hewan }}</td>
                         <td class="px-6 py-4">
                             @if($jenis->rasHewan && $jenis->rasHewan->count() > 0)

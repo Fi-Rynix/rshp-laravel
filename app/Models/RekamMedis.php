@@ -12,7 +12,7 @@ class RekamMedis extends Model
     const UPDATED_AT = null;
 
     protected $fillable = [
-        'anamesa',
+        'anamnesa',
         'temuan_klinis',
         'diagnosa',
         'dokter_pemeriksa',

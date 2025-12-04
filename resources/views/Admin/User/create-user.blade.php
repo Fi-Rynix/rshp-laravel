@@ -10,23 +10,40 @@
 
                 <h2 class="text-xl font-semibold mb-4">Tambah User</h2>
 
+                @if ($errors->any())
+                    <div class="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg">
+                        <p class="text-red-800 text-sm font-semibold mb-2">Terjadi kesalahan validasi:</p>
+                        <ul class="list-disc list-inside space-y-1">
+                            @foreach ($errors->all() as $error)
+                                <li class="text-red-700 text-sm">{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
                 <form action="{{ route('Admin.User.store-user') }}" method="POST">
                     @csrf
 
                     {{-- Nama --}}
                     <div class="mb-4">
                         <label class="block mb-1 text-sm text-slate-700 font-medium">Nama</label>
-                        <input type="text" name="nama"
-                              class="w-full rounded-md border border-slate-300 p-2
-                                      focus:ring-blue-500 focus:border-blue-500">
+                        <input type="text" name="nama" value="{{ old('nama') }}"
+                              class="w-full rounded-md border p-2 transition
+                                      @error('nama') border-red-500 focus:ring-red-500 @else border-slate-300 focus:ring-blue-500 @enderror focus:border-transparent focus:ring-2">
+                        @error('nama')
+                            <p class="text-red-600 text-xs mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     {{-- Email --}}
                     <div class="mb-4">
                         <label class="block mb-1 text-sm text-slate-700 font-medium">Email</label>
-                        <input type="email" name="email"
-                              class="w-full rounded-md border border-slate-300 p-2
-                                      focus:ring-blue-500 focus:border-blue-500">
+                        <input type="email" name="email" value="{{ old('email') }}"
+                              class="w-full rounded-md border p-2 transition
+                                      @error('email') border-red-500 focus:ring-red-500 @else border-slate-300 focus:ring-blue-500 @enderror focus:border-transparent focus:ring-2">
+                        @error('email')
+                            <p class="text-red-600 text-xs mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <div class="flex justify-end gap-2 mt-4">

@@ -13,13 +13,13 @@ class User_Controller extends Controller
 
     // validation & helper
     protected function validate_user(Request $request, $id = null) {
-        $uniqueEmailRule = $id
-            ? 'unique:user,email,' . $id . ',iduser'
-            : 'unique:user,email';
-
         return $request->validate([
             'nama' => ['required', 'string', 'max:500', 'min:3'],
-            'email' => ['required', 'email', $uniqueEmailRule],
+            'email' => [
+                'required',
+                'email',
+                $id ? 'unique:user,email,' . $id . ',iduser' : 'unique:user,email'
+            ],
         ], [
             'nama.required' => 'Nama wajib diisi.',
             'nama.min' => 'Nama minimal 3 karakter.',

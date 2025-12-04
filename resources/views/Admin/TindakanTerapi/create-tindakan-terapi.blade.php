@@ -12,38 +12,58 @@
 
                 <h2 class="text-xl font-semibold mb-4">Tambah Tindakan Terapi</h2>
 
+                @if ($errors->any())
+                    <div class="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg">
+                        <p class="text-red-800 text-sm font-semibold mb-2">Terjadi kesalahan validasi:</p>
+                        <ul class="list-disc list-inside space-y-1">
+                            @foreach ($errors->all() as $error)
+                                <li class="text-red-700 text-sm">{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
                 <form action="{{ route('Admin.TindakanTerapi.store-tindakan-terapi') }}" method="POST">
                     @csrf
 
                     {{-- Deskripsi --}}
                     <div class="mb-4">
                         <label class="block mb-1 text-sm text-slate-700 font-medium">Deskripsi Tindakan Terapi</label>
-                        <input type="text" name="deskripsi_tindakan_terapi"
-                              class="w-full rounded-md border border-slate-300 p-2 focus:ring-blue-500 focus:border-blue-500">
+                        <input type="text" name="deskripsi_tindakan_terapi" value="{{ old('deskripsi_tindakan_terapi') }}"
+                              class="w-full rounded-md border p-2 transition @error('deskripsi_tindakan_terapi') border-red-500 focus:ring-red-500 @else border-slate-300 focus:ring-blue-500 @enderror focus:border-transparent focus:ring-2">
+                        @error('deskripsi_tindakan_terapi')
+                            <p class="text-red-600 text-xs mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     {{-- Kategori --}}
                     <div class="mb-4">
                         <label class="block mb-1 text-sm text-slate-700 font-medium">Kategori</label>
                         <select name="idkategori"
-                                class="w-full rounded-md border border-slate-300 p-2 focus:ring-blue-500 focus:border-blue-500">
+                                class="w-full rounded-md border p-2 transition @error('idkategori') border-red-500 focus:ring-red-500 @else border-slate-300 focus:ring-blue-500 @enderror focus:border-transparent focus:ring-2">
                             <option value="">-- Pilih Kategori --</option>
                             @foreach($kategorilist as $kategori)
-                                <option value="{{ $kategori->idkategori }}">{{ $kategori->nama_kategori }}</option>
+                                <option value="{{ $kategori->idkategori }}" {{ old('idkategori') == $kategori->idkategori ? 'selected' : '' }}>{{ $kategori->nama_kategori }}</option>
                             @endforeach
                         </select>
+                        @error('idkategori')
+                            <p class="text-red-600 text-xs mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     {{-- Kategori Klinis --}}
                     <div class="mb-4">
                         <label class="block mb-1 text-sm text-slate-700 font-medium">Kategori Klinis</label>
                         <select name="idkategori_klinis"
-                                class="w-full rounded-md border border-slate-300 p-2 focus:ring-blue-500 focus:border-blue-500">
+                                class="w-full rounded-md border p-2 transition @error('idkategori_klinis') border-red-500 focus:ring-red-500 @else border-slate-300 focus:ring-blue-500 @enderror focus:border-transparent focus:ring-2">
                             <option value="">-- Pilih Kategori Klinis --</option>
                             @foreach($kategori_klinislist as $klinis)
-                                <option value="{{ $klinis->idkategori_klinis }}">{{ $klinis->nama_kategori_klinis }}</option>
+                                <option value="{{ $klinis->idkategori_klinis }}" {{ old('idkategori_klinis') == $klinis->idkategori_klinis ? 'selected' : '' }}>{{ $klinis->nama_kategori_klinis }}</option>
                             @endforeach
                         </select>
+                        @error('idkategori_klinis')
+                            <p class="text-red-600 text-xs mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     {{-- Tombol --}}
