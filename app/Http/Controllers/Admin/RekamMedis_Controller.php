@@ -12,6 +12,8 @@ use App\Models\RoleUser;
 
 class RekamMedis_Controller extends Controller
 {
+
+    // validation & helper
     protected function validate_rekam_medis(Request $request)
     {
         return $request->validate([
@@ -59,6 +61,8 @@ class RekamMedis_Controller extends Controller
         ]);
     }
 
+
+    // method
     public function daftar_rekam_medis(Request $request)
     {
         $rekamMedislist = RekamMedis::whereNull('deleted_at')->with(['temuDokter.pet.pemilik.user', 'temuDokter.roleUser.user', 'detailRekamMedis.kodeTindakanTerapi'])

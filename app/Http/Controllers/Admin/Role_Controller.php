@@ -10,6 +10,8 @@ use App\Models\RoleUser;
 
 class Role_Controller extends Controller
 {
+
+    // validation & helper
     protected function validate_role(Request $request)
     {
         return $request->validate([
@@ -25,6 +27,8 @@ class Role_Controller extends Controller
         ]);
     }
 
+
+    // method
     public function daftar_manajemen_role() {
         $userlist = User::with('roleUsers.role')->get();
         $rolelist = Role::all();

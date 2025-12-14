@@ -68,13 +68,13 @@ class LoginController extends Controller
             case 1:
                 return redirect()->route('Admin.dashboard-admin')->with('success', 'Login berhasil sebagai Admin');
             case 2:
-                return redirect()->route('dashboard-dokter')->with('success', 'Login berhasil sebagai Dokter');
+                return redirect()->route('Dokter.dashboard-dokter')->with('success', 'Login berhasil sebagai Dokter');
             case 3:
-                return redirect()->route('dashboard-perawat')->with('success', 'Login berhasil sebagai Perawat');
+                return redirect()->route('Perawat.dashboard-perawat')->with('success', 'Login berhasil sebagai Perawat');
             case 4:
-                return redirect()->route('dashboard-resepsionis')->with('success', 'Login berhasil sebagai Resepsionis');
+                return redirect()->route('Resepsionis.dashboard-resepsionis')->with('success', 'Login berhasil sebagai Resepsionis');
             case 5:
-                return redirect()->route('dashboard-pemilik')->with('success', 'Login berhasil sebagai Pemilik');
+                return redirect()->route('Pemilik.dashboard-pemilik')->with('success', 'Login berhasil sebagai Pemilik');
             default:
                 Auth::logout();
                 return redirect()->route('login')->withErrors(['role' => 'Role tidak dikenali'])->withInput();

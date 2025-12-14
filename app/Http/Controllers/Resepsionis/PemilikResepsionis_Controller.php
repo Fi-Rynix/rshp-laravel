@@ -1,17 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Resepsionis;
 
 use App\Http\Controllers\Controller;
-use App\Models\RoleUser;
 use Illuminate\Http\Request;
-use App\Models\Pemilik;
-use App\Models\User;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Carbon\Carbon;
 
-class Pemilik_Controller extends Controller
+class PemilikResepsionis_Controller extends Controller
 {
-
     // validation & helper
     protected function validate_pemilik(Request $request, $iduser = null)
     {
@@ -40,112 +38,123 @@ class Pemilik_Controller extends Controller
         ]);
     }
 
-
     protected function format_nama($value)
     {
         return trim(ucwords(strtolower($value)));
     }
 
-
-
     // method
     public function daftar_pemilik()
     {
-        $pemiliklist = User::leftJoin('role_user', 'user.iduser', '=', 'role_user.iduser')
-            ->where('role_user.idrole', 5)
+        $pemiliklist = DB::table('user')
+            ->leftJoin('role_user', 'user.iduser', '=', 'role_user.iduser')
             ->leftJoin('pemilik', 'user.iduser', '=', 'pemilik.iduser')
+            ->where('role_user.idrole', 5)
             ->whereNull('user.deleted_at')
             ->whereNull('pemilik.deleted_at')
-            ->select('user.*', 'pemilik.idpemilik AS idpemilik', 'pemilik.no_wa', 'pemilik.alamat')
+            ->select('user.*', 'pemilik.idpemilik', 'pemilik.no_wa', 'pemilik.alamat')
             ->orderBy('user.nama')
             ->get();
 
-        return view('Admin.Pemilik.daftar-pemilik', compact('pemiliklist'));
+        return view('Resepsionis.Pemilik.daftar-pemilik', compact('pemiliklist'));
     }
 
-    public function store_pemilik(Request $request) {
+    public function store_pemilik(Request $request)
+    {
         $validated = $this->validate_pemilik($request);
-        $user = User::create([
+        
+        $iduser = DB::table('user')->insertGetId([
             'nama' => $this->format_nama($validated['nama']),
             'email' => strtolower($validated['email']),
             'password' => Hash::make('123456'),
+            'created_at' => now(),
+            'updated_at' => now(),
         ]);
-        Pemilik::create([
-            'iduser' => $user->iduser,
+
+        DB::table('pemilik')->insert([
+            'iduser' => $iduser,
             'no_wa' => $validated['no_wa'],
             'alamat' => $validated['alamat'],
+            'created_at' => now(),
+            'updated_at' => now(),
         ]);
-        RoleUser::create([
-            'iduser' => $user->iduser,
+
+        DB::table('role_user')->insert([
+            'iduser' => $iduser,
             'idrole' => 5,
+            'status' => 1,
+            'created_at' => now(),
+            'updated_at' => now(),
         ]);
+
         return redirect()
-            ->route('Admin.Pemilik.daftar-pemilik')
+            ->route('Resepsionis.Pemilik.daftar-pemilik')
             ->with('success', 'Data pemilik berhasil ditambahkan.');
-    }
-
-
-    public function update_pemilik(Request $request, $id) {
-        $validated = $this->validate_pemilik($request, $id);
-        $pemilik = Pemilik::findOrFail($id);
-        $user = User::findOrFail($pemilik->iduser);
-        $user->nama = $this->format_nama($validated['nama']);
-        $user->email = strtolower($validated['email']);
-        $user->save();
-        $pemilik->no_wa = $validated['no_wa'];
-        $pemilik->alamat = $validated['alamat'];
-        $pemilik->save();
-        return redirect()
-            ->route('Admin.Pemilik.daftar-pemilik')
-            ->with('success', 'Data pemilik berhasil diperbarui.');
     }
 
     public function save_pemilik(Request $request, $iduser)
     {
         $validated = $this->validate_pemilik($request, $iduser);
-        $user = User::findOrFail($iduser);
 
-        $user->nama = $this->format_nama($validated['nama']);
-        $user->email = strtolower($validated['email']);
-        $user->save();
+        DB::table('user')
+            ->where('iduser', $iduser)
+            ->update([
+                'nama' => $this->format_nama($validated['nama']),
+                'email' => strtolower($validated['email']),
+                'updated_at' => now(),
+            ]);
 
-        $pemilik = Pemilik::where('iduser', $iduser)->first();
-        if (!$pemilik) {
-            Pemilik::create([
+        $pemilikExists = DB::table('pemilik')
+            ->where('iduser', $iduser)
+            ->exists();
+
+        if (!$pemilikExists) {
+            DB::table('pemilik')->insert([
                 'iduser' => $iduser,
                 'no_wa' => $validated['no_wa'],
                 'alamat' => $validated['alamat'],
+                'created_at' => now(),
+                'updated_at' => now(),
             ]);
         } else {
-            $pemilik->no_wa = $validated['no_wa'];
-            $pemilik->alamat = $validated['alamat'];
-            $pemilik->save();
+            DB::table('pemilik')
+                ->where('iduser', $iduser)
+                ->update([
+                    'no_wa' => $validated['no_wa'],
+                    'alamat' => $validated['alamat'],
+                    'updated_at' => now(),
+                ]);
         }
 
         return redirect()
-            ->route('Admin.Pemilik.daftar-pemilik')
+            ->route('Resepsionis.Pemilik.daftar-pemilik')
             ->with('success', 'Data pemilik berhasil disimpan.');
     }
 
-
-    public function delete_pemilik($id) {
-        $pemilik = Pemilik::findOrFail($id);
-        if ($pemilik->pets()->where('pet.deleted_at', null)->exists()) {
-            return redirect()
-                ->route('Admin.Pemilik.daftar-pemilik')
-                ->with('error', 'Pemilik memiliki Pet (Pasien) terkait, tidak dapat dihapus.');
-        }
+    public function delete_pemilik($id)
+    {
         $iduser = session('iduser');
-        $pemilik->update([
-            'deleted_at' => now(),
-            'deleted_by' => $iduser
-        ]);
-        User::where('iduser', $pemilik->iduser)->update([
-            'deleted_at' => now(),
-            'deleted_by' => $iduser
-        ]);
+        
+        DB::table('pemilik')
+            ->where('idpemilik', $id)
+            ->update([
+                'deleted_at' => now(),
+                'deleted_by' => $iduser,
+            ]);
+
+        $pemilik = DB::table('pemilik')->where('idpemilik', $id)->first();
+        
+        DB::table('user')
+            ->where('iduser', $pemilik->iduser)
+            ->update([
+                'deleted_at' => now(),
+                'deleted_by' => $iduser,
+            ]);
+
         return redirect()
-            ->route('Admin.Pemilik.daftar-pemilik')
+            ->route('Resepsionis.Pemilik.daftar-pemilik')
             ->with('success', 'Data pemilik berhasil dihapus.');
     }
 }
+
+?>

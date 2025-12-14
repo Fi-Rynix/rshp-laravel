@@ -93,9 +93,6 @@ class Perawat_Controller extends Controller
     // method
     public function daftar_perawat()
     {
-        // Select users that have role id = 3 (perawat)
-        // Left join perawat to include optional fields
-        // Exclude soft-deleted records
         $perawatlist = User::leftJoin('role_user', 'user.iduser', '=', 'role_user.iduser')
             ->where('role_user.idrole', 3)
             ->leftJoin('perawat', 'user.iduser', '=', 'perawat.iduser')
@@ -169,12 +166,10 @@ class Perawat_Controller extends Controller
         $validated = $this->validate_perawat($request, $iduser);
         $user = User::findOrFail($iduser);
 
-        // Update user data
         $user->nama = $this->format_nama($validated['nama']);
         $user->email = strtolower($validated['email']);
         $user->save();
 
-        // Create or update perawat record
         $perawat = Perawat::where('iduser', $iduser)->first();
         if (!$perawat) {
             Perawat::create([

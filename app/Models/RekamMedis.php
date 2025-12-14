@@ -23,7 +23,7 @@ class RekamMedis extends Model
 
     public function roleUser()
     {
-        return $this->belongsTo(RoleUser::class, 'idrole_user', 'dokter_pemeriksa');
+        return $this->belongsTo(RoleUser::class, 'dokter_pemeriksa', 'idrole_user');
     }
 
     public function temuDokter()
