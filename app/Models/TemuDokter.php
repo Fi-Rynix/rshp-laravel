@@ -16,7 +16,9 @@ class temuDokter extends Model
         'no_urut',
         'status',
         'idpet',
-        'idrole_user'
+        'idrole_user',
+        'deleted_at',
+        'deleted_by'
     ];
 
     public function rekamMedis()

@@ -39,9 +39,9 @@ class TindakanTerapi_Controller extends Controller
 
     // method
     public function daftar_tindakan_terapi() {
-        $tindakanterapilist = KodeTindakanTerapi::with(['kategori', 'kategoriKlinis'])->get();
-        $kategorilist = Kategori::all();
-        $kategori_klinislist = KategoriKlinis::all();
+        $tindakanterapilist = KodeTindakanTerapi::whereNull('deleted_at')->with(['kategori', 'kategoriKlinis'])->get();
+        $kategorilist = Kategori::whereNull('deleted_at')->get();
+        $kategori_klinislist = KategoriKlinis::whereNull('deleted_at')->get();
         return view('Admin.TindakanTerapi.daftar-tindakan-terapi', compact(
             'tindakanterapilist',
             'kategorilist',
@@ -74,11 +74,15 @@ class TindakanTerapi_Controller extends Controller
 
     public function delete_tindakan_terapi($id) {
         $tindakan = KodeTindakanTerapi::findOrFail($id);
-        if ($tindakan->detailRekamMedis()->exists()) {
+        if ($tindakan->detailRekamMedis()->where('detail_rekam_medis.deleted_at', null)->exists()) {
             return redirect()->route('Admin.TindakanTerapi.daftar-tindakan-terapi')
                 ->with('error', 'Tindakan ini memiliki record di tabel lain dan tidak dapat dihapus.');
         }
-        $tindakan->delete();
+        $iduser = session('iduser');
+        $tindakan->update([
+            'deleted_at' => now(),
+            'deleted_by' => $iduser
+        ]);
         return redirect()->route('Admin.TindakanTerapi.daftar-tindakan-terapi')
             ->with('success', 'Tindakan Terapi berhasil dihapus.');
     }

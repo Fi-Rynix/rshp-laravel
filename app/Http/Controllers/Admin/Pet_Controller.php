@@ -65,9 +65,9 @@ class Pet_Controller extends Controller
 
     // method
     public function daftar_pet() {
-        $petlist = Pet::with(['pemilik.user', 'rasHewan'])->get();
-        $pemiliklist = Pemilik::with('user')->get();
-        $rashevanlist = RasHewan::all();
+        $petlist = Pet::whereNull('deleted_at')->with(['pemilik.user', 'rasHewan'])->get();
+        $pemiliklist = Pemilik::whereNull('deleted_at')->with('user')->get();
+        $rashevanlist = RasHewan::whereNull('deleted_at')->get();
         return view('Admin.Pet.daftar-pet', compact('petlist', 'pemiliklist', 'rashevanlist'));
     }
 
@@ -103,7 +103,11 @@ class Pet_Controller extends Controller
 
     public function delete_pet($id) {
         $pet = Pet::findOrFail($id);
-        $pet->delete();
+        $iduser = session('iduser');
+        $pet->update([
+            'deleted_at' => now(),
+            'deleted_by' => $iduser
+        ]);
         return redirect()
             ->route('Admin.Pet.daftar-pet')
             ->with('success', 'Data pet berhasil dihapus.');

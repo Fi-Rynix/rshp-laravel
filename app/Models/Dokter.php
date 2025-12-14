@@ -10,7 +10,7 @@ class Dokter extends Model
     protected $primaryKey = 'iddokter';
     public $timestamps = false;
 
-    protected $fillable = ['alamat', 'no_hp', 'bidang_dokter', 'jenis_kelamin', 'iduser'];
+    protected $fillable = ['alamat', 'no_hp', 'bidang_dokter', 'jenis_kelamin', 'iduser', 'deleted_at', 'deleted_by'];
 
     public function user()
     {

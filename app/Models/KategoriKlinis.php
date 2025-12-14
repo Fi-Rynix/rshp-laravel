@@ -10,7 +10,7 @@ class KategoriKlinis extends Model
     protected $primaryKey = 'idkategori_klinis';
     public $timestamps = false;
 
-    protected $fillable = ['idkategori_klinis', 'nama_kategori_klinis'];
+    protected $fillable = ['idkategori_klinis', 'nama_kategori_klinis', 'deleted_at', 'deleted_by'];
 
     public function kodeTindakanTerapi()
     {

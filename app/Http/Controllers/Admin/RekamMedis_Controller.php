@@ -61,15 +61,15 @@ class RekamMedis_Controller extends Controller
 
     public function daftar_rekam_medis(Request $request)
     {
-        $rekamMedislist = RekamMedis::with(['temuDokter.pet.pemilik.user', 'temuDokter.roleUser.user', 'detailRekamMedis.kodeTindakanTerapi'])
+        $rekamMedislist = RekamMedis::whereNull('deleted_at')->with(['temuDokter.pet.pemilik.user', 'temuDokter.roleUser.user', 'detailRekamMedis.kodeTindakanTerapi'])
             ->orderBy('created_at', 'desc')
             ->get();
 
-        $reservasilist = TemuDokter::with(['pet.pemilik.user', 'pet.rasHewan', 'roleUser.user'])
+        $reservasilist = TemuDokter::whereNull('deleted_at')->with(['pet.pemilik.user', 'pet.rasHewan', 'roleUser.user'])
             ->where('status', 'W')
             ->get();
 
-        $tindakanlist = KodeTindakanTerapi::all();
+        $tindakanlist = KodeTindakanTerapi::whereNull('deleted_at')->get();
 
         $dokterlist = RoleUser::where('idrole', 2)
             ->where('status', 1)
@@ -134,13 +134,20 @@ class RekamMedis_Controller extends Controller
     public function delete_rekam_medis($id)
     {
         $rekamMedis = RekamMedis::findOrFail($id);
+        $iduser = session('iduser');
 
-        DetailRekamMedis::where('idrekam_medis', $rekamMedis->idrekam_medis)->delete();
+        DetailRekamMedis::where('idrekam_medis', $rekamMedis->idrekam_medis)->update([
+            'deleted_at' => now(),
+            'deleted_by' => $iduser
+        ]);
 
         TemuDokter::where('idreservasi_dokter', $rekamMedis->idreservasi_dokter)
             ->update(['status' => 'W']);
 
-        $rekamMedis->delete();
+        $rekamMedis->update([
+            'deleted_at' => now(),
+            'deleted_by' => $iduser
+        ]);
 
         return redirect()
             ->route('Admin.RekamMedis.daftar-rekam-medis')

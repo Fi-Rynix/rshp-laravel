@@ -36,7 +36,7 @@ class KategoriKlinis_Controller extends Controller
 
     // Method
     public function daftar_kategori_klinis() {
-        $kategori_klinislist = KategoriKlinis::all();
+        $kategori_klinislist = KategoriKlinis::whereNull('deleted_at')->get();
         return view('Admin.KategoriKlinis.daftar-kategori-klinis', compact('kategori_klinislist'));
     }
 
@@ -61,11 +61,15 @@ class KategoriKlinis_Controller extends Controller
 
     public function delete_kategori_klinis($id) {
         $kategori_klinis = KategoriKlinis::findOrFail($id);
-        if ($kategori_klinis->kodeTindakanTerapi()->exists()) {
+        if ($kategori_klinis->kodeTindakanTerapi()->where('kode_tindakan_terapi.deleted_at', null)->exists()) {
             return redirect()->route('Admin.KategoriKlinis.daftar-kategori-klinis')
                 ->with('error', 'Kategori Klinis ini memiliki record di tabel lain dan tidak dapat dihapus.');
         }
-        $kategori_klinis->delete();
+        $iduser = session('iduser');
+        $kategori_klinis->update([
+            'deleted_at' => now(),
+            'deleted_by' => $iduser
+        ]);
         return redirect()->route('Admin.KategoriKlinis.daftar-kategori-klinis')
             ->with('success', 'Kategori KLinis berhasil dihapus.');
     }

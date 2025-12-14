@@ -42,7 +42,7 @@ class User_Controller extends Controller
 
     // method
     public function daftar_user() {
-        $userlist = User::all();
+        $userlist = User::whereNull('deleted_at')->get();
         return view('Admin.User.daftar-user', compact('userlist'));
     }
 
@@ -73,8 +73,11 @@ class User_Controller extends Controller
             return redirect()->route('Admin.User.daftar-user')
                 ->with('error', 'User ini memiliki record di tabel lain dan tidak dapat dihapus.');
         }
-        $user->roleUsers()->delete();
-        $user->delete();
+        $iduser = session('iduser');
+        $user->update([
+            'deleted_at' => now(),
+            'deleted_by' => $iduser
+        ]);
         return redirect()->route('Admin.User.daftar-user')
             ->with('success', 'User berhasil dihapus.');
     }

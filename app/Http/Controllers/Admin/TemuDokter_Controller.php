@@ -43,7 +43,7 @@ class TemuDokter_Controller extends Controller
         $filterTanggal = $request->input('filter_tanggal', 'hari_ini');
         $filterDokter = $request->input('filter_dokter', null);
 
-        $query = TemuDokter::with(['pet.pemilik.user', 'pet.rasHewan', 'roleUser.user']);
+        $query = TemuDokter::whereNull('deleted_at')->with(['pet.pemilik.user', 'pet.rasHewan', 'roleUser.user']);
 
         if ($filterTanggal === 'hari_ini') {
             $query->whereDate('waktu_daftar', Carbon::today());
@@ -84,7 +84,11 @@ class TemuDokter_Controller extends Controller
     public function cancel_temu_dokter($idreservasi_dokter)
     {
         $temuDokter = TemuDokter::where('idreservasi_dokter', $idreservasi_dokter)->firstOrFail();
-        $temuDokter->update(['status' => 'C']);
+        $iduser = session('iduser');
+        $temuDokter->update([
+            'deleted_at' => now(),
+            'deleted_by' => $iduser
+        ]);
 
         return redirect()
             ->route('Admin.TemuDokter.daftar-temu-dokter')

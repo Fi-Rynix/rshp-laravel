@@ -47,37 +47,76 @@
 
             <tbody class="divide-y divide-slate-200">
                 @foreach($dokterlist as $row)
-                    <tr class="hover:bg-slate-50 transition-colors duration-150">
+                    @php
+                        $isIncomplete = !$row->no_hp || !$row->jenis_kelamin || !$row->bidang_dokter || !$row->alamat || !$row->iddokter;
+                    @endphp
+                    <tr class="hover:bg-slate-50 transition-colors duration-150 {{ $isIncomplete ? 'bg-yellow-50' : '' }}">
                         <td class="px-6 py-4">{{ $loop->iteration }}</td>
-                        <td class="px-6 py-4">{{ $row->user->nama ?? '-' }}</td>
-                        <td class="px-6 py-4">{{ $row->user->email ?? '-' }}</td>
-                        <td class="px-6 py-4">{{ $row->bidang_dokter }}</td>
-                        <td class="px-6 py-4">{{ $row->no_hp }}</td>
-                        <td class="px-6 py-4">{{ $row->jenis_kelamin }}</td>
+                        <td class="px-6 py-4 font-medium">{{ $row->nama ?? '-' }}</td>
+                        <td class="px-6 py-4 text-sm">{{ $row->email ?? '-' }}</td>
+                        <td class="px-6 py-4">
+                            @if($row->bidang_dokter)
+                                {{ $row->bidang_dokter }}
+                            @else
+                                <span class="text-gray-400 italic">Belum diisi</span>
+                            @endif
+                        </td>
+                        <td class="px-6 py-4">
+                            @if($row->no_hp)
+                                {{ $row->no_hp }}
+                            @else
+                                <span class="text-gray-400 italic">Belum diisi</span>
+                            @endif
+                        </td>
+                        <td class="px-6 py-4">
+                            @if($row->jenis_kelamin)
+                                {{ $row->jenis_kelamin == 'L' ? 'Laki-laki' : 'Perempuan' }}
+                            @else
+                                <span class="text-gray-400 italic">Belum diisi</span>
+                            @endif
+                        </td>
 
                         <td class="px-6 py-4 text-center">
-                            <button
-                                command="show-modal"
-                                commandfor="modalEdit-{{ $row->iddokter }}"
-                                class="inline-flex items-center gap-1.5 px-3 py-1.5
-                                    bg-teal-500 text-white text-sm font-medium
-                                    rounded-md hover:bg-teal-600 transition shadow-sm hover:shadow">
-                                Edit
-                            </button>
+                            @if($isIncomplete)
+                                <button
+                                    command="show-modal"
+                                    commandfor="modalEdit-{{ $row->iduser }}"
+                                    class="inline-flex items-center gap-1.5 px-3 py-1.5
+                                        bg-amber-500 text-white text-sm font-medium
+                                        rounded-md hover:bg-amber-600 transition shadow-sm hover:shadow">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                                    </svg>
+                                    Isi Data
+                                </button>
+                            @else
+                                <button
+                                    command="show-modal"
+                                    commandfor="modalEdit-{{ $row->iduser }}"
+                                    class="inline-flex items-center gap-1.5 px-3 py-1.5
+                                        bg-teal-500 text-white text-sm font-medium
+                                        rounded-md hover:bg-teal-600 transition shadow-sm hover:shadow">
+                                    Edit
+                                </button>
 
-                            <button
-                                command="show-modal"
-                                commandfor="modalDelete-{{ $row->iddokter }}"
-                                class="inline-flex items-center gap-1.5 px-3 py-1.5
-                                    bg-red-500 text-white text-sm font-medium
-                                    rounded-md hover:bg-red-600 transition shadow-sm hover:shadow">
-                                Hapus
-                            </button>
+                                <button
+                                    command="show-modal"
+                                    commandfor="modalDelete-{{ $row->iddokter }}"
+                                    class="inline-flex items-center gap-1.5 px-3 py-1.5
+                                        bg-red-500 text-white text-sm font-medium
+                                        rounded-md hover:bg-red-600 transition shadow-sm hover:shadow">
+                                    Hapus
+                                </button>
+                            @endif
                         </td>
                     </tr>
 
-                    @include('Admin.Dokter.edit-dokter', ['dokter' => $row])
-                    @include('Admin.Dokter.delete-dokter', ['dokter' => $row])
+                    @if($row->iddokter)
+                        @include('Admin.Dokter.edit-dokter', ['dokter' => $row])
+                        @include('Admin.Dokter.delete-dokter', ['dokter' => $row])
+                    @else
+                        @include('Admin.Dokter.edit-dokter', ['dokter' => (object)["iduser" => $row->iduser, "nama" => $row->nama, "email" => $row->email, "iddokter" => null, "no_hp" => null, "jenis_kelamin" => null, "bidang_dokter" => null, "alamat" => null]])
+                    @endif
 
                 @endforeach
             </tbody>

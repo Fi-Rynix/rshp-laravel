@@ -13,7 +13,7 @@ class Pemilik_Controller extends Controller
 {
 
     // validation & helper
-    protected function validate_pemilik(Request $request, $id = null)
+    protected function validate_pemilik(Request $request, $iduser = null)
     {
         return $request->validate([
             'nama' => ['required', 'string', 'max:255', 'min:3'],
@@ -21,8 +21,8 @@ class Pemilik_Controller extends Controller
                 'required',
                 'email',
                 'max:255',
-                $id
-                    ? 'unique:user,email,' . Pemilik::findOrFail($id)->iduser . ',iduser'
+                $iduser
+                    ? 'unique:user,email,' . $iduser . ',iduser'
                     : 'unique:user,email'
             ],
             'no_wa' => ['required', 'numeric', 'digits_between:10,15'],
@@ -49,11 +49,22 @@ class Pemilik_Controller extends Controller
 
 
     // method
-    public function daftar_pemilik() {
-        $pemiliklist = Pemilik::with('user')->get();
+    public function daftar_pemilik()
+    {
+        // Select users that have role id = 5 (pemilik)
+        // Left join pemilik to include optional fields (no_wa, alamat)
+        // Exclude soft-deleted records
+        $pemiliklist = User::leftJoin('role_user', 'user.iduser', '=', 'role_user.iduser')
+            ->where('role_user.idrole', 5)
+            ->leftJoin('pemilik', 'user.iduser', '=', 'pemilik.iduser')
+            ->whereNull('user.deleted_at')
+            ->whereNull('pemilik.deleted_at')
+            ->select('user.*', 'pemilik.idpemilik AS idpemilik', 'pemilik.no_wa', 'pemilik.alamat')
+            ->orderBy('user.nama')
+            ->get();
+
         return view('Admin.Pemilik.daftar-pemilik', compact('pemiliklist'));
     }
-
 
     public function store_pemilik(Request $request) {
         $validated = $this->validate_pemilik($request);
@@ -92,17 +103,52 @@ class Pemilik_Controller extends Controller
             ->with('success', 'Data pemilik berhasil diperbarui.');
     }
 
+    public function save_pemilik(Request $request, $iduser)
+    {
+        $validated = $this->validate_pemilik($request, $iduser);
+        $user = User::findOrFail($iduser);
+
+        // Update user data
+        $user->nama = $this->format_nama($validated['nama']);
+        $user->email = strtolower($validated['email']);
+        $user->save();
+
+        // Create or update pemilik record
+        $pemilik = Pemilik::where('iduser', $iduser)->first();
+        if (!$pemilik) {
+            Pemilik::create([
+                'iduser' => $iduser,
+                'no_wa' => $validated['no_wa'],
+                'alamat' => $validated['alamat'],
+            ]);
+        } else {
+            $pemilik->no_wa = $validated['no_wa'];
+            $pemilik->alamat = $validated['alamat'];
+            $pemilik->save();
+        }
+
+        return redirect()
+            ->route('Admin.Pemilik.daftar-pemilik')
+            ->with('success', 'Data pemilik berhasil disimpan.');
+    }
+
 
     public function delete_pemilik($id) {
         $pemilik = Pemilik::findOrFail($id);
-        if ($pemilik->pets()->exists()) {
+        if ($pemilik->pets()->where('pet.deleted_at', null)->exists()) {
             return redirect()
                 ->route('Admin.Pemilik.daftar-pemilik')
                 ->with('error', 'Pemilik memiliki Pet (Pasien) terkait, tidak dapat dihapus.');
         }
-        $pemilik->delete();
-        RoleUser::where('iduser', $pemilik->iduser)->delete();
-        User::where('iduser', $pemilik->iduser)->delete();
+        $iduser = session('iduser');
+        $pemilik->update([
+            'deleted_at' => now(),
+            'deleted_by' => $iduser
+        ]);
+        User::where('iduser', $pemilik->iduser)->update([
+            'deleted_at' => now(),
+            'deleted_by' => $iduser
+        ]);
         return redirect()
             ->route('Admin.Pemilik.daftar-pemilik')
             ->with('success', 'Data pemilik berhasil dihapus.');

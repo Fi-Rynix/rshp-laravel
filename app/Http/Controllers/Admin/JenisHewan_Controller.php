@@ -40,7 +40,7 @@ class JenisHewan_Controller extends Controller
 
     // method
     public function daftar_jenis_hewan() {
-        $hewanlist = JenisHewan::all();
+        $hewanlist = JenisHewan::whereNull('deleted_at')->with('rasHewan')->get();
         return view('Admin.JenisHewan.daftar-jenis-hewan', compact('hewanlist'));
     }
 
@@ -69,11 +69,17 @@ class JenisHewan_Controller extends Controller
 
     public function delete_jenis_hewan($id) {
         $hewan = JenisHewan::find($id);
-        if ($hewan->rasHewan()->exists()) {
-            return redirect()->route('Admin.JenisHewan.daftar-jenis-hewan')->with('error', 'Jenis hewan ini memiliki ras hewan terkait dan tidak dapat dihapus.');
+        if ($hewan->rasHewan()->where('ras_hewan.deleted_at', null)->exists()) {
+            return redirect()->route('Admin.JenisHewan.daftar-jenis-hewan')
+                ->with('error', 'Jenis hewan ini memiliki ras hewan terkait dan tidak dapat dihapus.');
         }
-        $hewan->delete();
-        return redirect()->route('Admin.JenisHewan.daftar-jenis-hewan')->with('success', 'Jenis hewan berhasil dihapus.');
+        $iduser = session('iduser');
+        $hewan->update([
+            'deleted_at' => now(),
+            'deleted_by' => $iduser
+        ]);
+        return redirect()->route('Admin.JenisHewan.daftar-jenis-hewan')
+            ->with('success', 'Jenis hewan berhasil dihapus.');
     }
 }
 

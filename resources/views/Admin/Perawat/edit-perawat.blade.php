@@ -1,12 +1,11 @@
-@foreach ($perawatlist as $perawat)
 <el-dialog>
-    <dialog id="modalEdit-{{ $perawat->idperawat }}" class="fixed inset-0 z-[9000] bg-transparent backdrop:bg-transparent">
+    <dialog id="modalEdit-{{ $perawat->iduser }}" class="fixed inset-0 z-[9000] bg-transparent backdrop:bg-transparent">
         <el-dialog-backdrop class="fixed inset-0 bg-black/50 z-[9000]"></el-dialog-backdrop>
 
         <div class="fixed inset-0 z-[9500] flex items-center justify-center p-4">
             <el-dialog-panel class="bg-white rounded-xl shadow-2xl w-full max-w-md p-6">
 
-                <h2 class="text-xl font-semibold mb-4">Edit Perawat</h2>
+                <h2 class="text-xl font-semibold mb-4">{{ $perawat->idperawat ? 'Edit' : 'Isi' }} Data Perawat</h2>
 
                 @if ($errors->any())
                     <div class="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg">
@@ -19,13 +18,13 @@
                     </div>
                 @endif
 
-                <form action="{{ route('Admin.Perawat.update-perawat', $perawat->idperawat) }}" method="POST">
+                <form action="{{ route('Admin.Perawat.save-perawat', $perawat->iduser) }}" method="POST">
                     @csrf
                     @method('PUT')
 
                     <div class="mb-4">
                         <label class="block mb-1 text-sm text-slate-700 font-medium">Nama</label>
-                        <input type="text" name="nama" value="{{ old('nama', $perawat->user->nama) }}"
+                        <input type="text" name="nama" value="{{ old('nama', $perawat->nama) }}"
                         class="w-full rounded-md border p-2 transition @error('nama') border-red-500 focus:ring-red-500 @else border-slate-300 focus:ring-blue-500 @enderror focus:border-transparent focus:ring-2">
                         @error('nama')
                             <p class="text-red-600 text-xs mt-1">{{ $message }}</p>
@@ -34,7 +33,7 @@
 
                     <div class="mb-4">
                         <label class="block mb-1 text-sm text-slate-700 font-medium">Email</label>
-                        <input type="email" name="email" value="{{ old('email', $perawat->user->email) }}"
+                        <input type="email" name="email" value="{{ old('email', $perawat->email) }}"
                         class="w-full rounded-md border p-2 transition @error('email') border-red-500 focus:ring-red-500 @else border-slate-300 focus:ring-blue-500 @enderror focus:border-transparent focus:ring-2">
                         @error('email')
                             <p class="text-red-600 text-xs mt-1">{{ $message }}</p>
@@ -84,14 +83,14 @@
                     <div class="flex justify-end gap-2 mt-4">
                         <button type="button"
                                 command="close"
-                                commandfor="modalEdit-{{ $perawat->idperawat }}"
+                                commandfor="modalEdit-{{ $perawat->iduser }}"
                                 class="px-4 py-2 bg-gray-200 rounded-md hover:bg-gray-300">
                             Batal
                         </button>
 
                         <button type="submit"
                                 class="px-5 py-2 bg-teal-600 text-white rounded-md hover:bg-teal-700">
-                            Update
+                            Simpan
                         </button>
                     </div>
                 </form>
@@ -100,4 +99,3 @@
         </div>
     </dialog>
 </el-dialog>
-@endforeach

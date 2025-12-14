@@ -13,7 +13,7 @@ class User extends Authenticatable
     protected $primaryKey = 'iduser';
     public $timestamps = false;
 
-    protected $fillable = ['nama', 'email', 'password'];
+    protected $fillable = ['nama', 'email', 'password', 'deleted_at', 'deleted_by'];
 
     public function roleUsers()
     {

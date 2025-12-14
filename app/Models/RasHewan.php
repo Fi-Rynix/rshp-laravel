@@ -10,7 +10,7 @@ class RasHewan extends Model
     protected $primaryKey = 'idras_hewan';
     public $timestamps = false;
 
-    protected $fillable = ['nama_ras', 'idjenis_hewan'];
+    protected $fillable = ['nama_ras', 'idjenis_hewan', 'deleted_at', 'deleted_by'];
 
     public function jenisHewan()
     {

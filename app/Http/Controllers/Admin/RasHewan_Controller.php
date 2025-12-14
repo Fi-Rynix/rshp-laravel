@@ -45,7 +45,7 @@ class RasHewan_Controller extends Controller
 
     // method
     public function daftar_ras_hewan() {
-        $hewanRasList = JenisHewan::with('rasHewan')->get();
+        $hewanRasList = JenisHewan::whereNull('deleted_at')->with('rasHewan')->get();
         return view('Admin.RasHewan.daftar-ras-hewan', compact('hewanRasList'));
     }
 
@@ -71,11 +71,15 @@ class RasHewan_Controller extends Controller
 
     public function delete_ras_hewan($id) {
         $ras = RasHewan::findOrFail($id);
-        if ($ras->pets()->exists()) {
+        if ($ras->pets()->where('pet.deleted_at', null)->exists()) {
             return redirect()->route('Admin.RasHewan.daftar-ras-hewan')
                 ->with('error', 'Ras ini digunakan pada data hewan dan tidak dapat dihapus.');
         }
-        $ras->delete();
+        $iduser = session('iduser');
+        $ras->update([
+            'deleted_at' => now(),
+            'deleted_by' => $iduser
+        ]);
         return redirect()->route('Admin.RasHewan.daftar-ras-hewan')
             ->with('success', 'Ras Hewan berhasil dihapus.');
     }

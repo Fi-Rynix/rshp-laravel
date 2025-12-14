@@ -13,7 +13,7 @@ class Dokter_Controller extends Controller
 {
 
     // validation & helper
-    protected function validate_dokter(Request $request, $id = null)
+    protected function validate_dokter(Request $request, $iduser = null)
     {
         return $request->validate([
             'nama' => ['required', 'string', 'max:255', 'min:3'],
@@ -21,8 +21,8 @@ class Dokter_Controller extends Controller
                 'required',
                 'email',
                 'max:255',
-                $id
-                    ? 'unique:user,email,' . Dokter::findOrFail($id)->iduser . ',iduser'
+                $iduser
+                    ? 'unique:user,email,' . $iduser . ',iduser'
                     : 'unique:user,email'
             ],
             'no_hp' => ['required', 'numeric', 'digits_between:10,15'],
@@ -58,8 +58,20 @@ class Dokter_Controller extends Controller
 
 
     // method
-    public function daftar_dokter() {
-        $dokterlist = Dokter::with('user')->get();
+    public function daftar_dokter()
+    {
+        // Select users that have role id = 2 (dokter)
+        // Left join dokter to include optional fields
+        // Exclude soft-deleted records
+        $dokterlist = User::leftJoin('role_user', 'user.iduser', '=', 'role_user.iduser')
+            ->where('role_user.idrole', 2)
+            ->leftJoin('dokter', 'user.iduser', '=', 'dokter.iduser')
+            ->whereNull('user.deleted_at')
+            ->whereNull('dokter.deleted_at')
+            ->select('user.*', 'dokter.iddokter', 'dokter.no_hp', 'dokter.jenis_kelamin', 'dokter.bidang_dokter', 'dokter.alamat')
+            ->orderBy('user.nama')
+            ->get();
+
         return view('Admin.Dokter.daftar-dokter', compact('dokterlist'));
     }
 
@@ -108,11 +120,50 @@ class Dokter_Controller extends Controller
 
     public function delete_dokter($id) {
         $dokter = Dokter::findOrFail($id);
-        $dokter->delete();
-        RoleUser::where('iduser', $dokter->iduser)->delete();
-        User::where('iduser', $dokter->iduser)->delete();
+        $iduser = session('iduser');
+        $dokter->update([
+            'deleted_at' => now(),
+            'deleted_by' => $iduser
+        ]);
+        User::where('iduser', $dokter->iduser)->update([
+            'deleted_at' => now(),
+            'deleted_by' => $iduser
+        ]);
         return redirect()
             ->route('Admin.Dokter.daftar-dokter')
             ->with('success', 'Data dokter berhasil dihapus.');
+    }
+
+    public function save_dokter(Request $request, $iduser)
+    {
+        $validated = $this->validate_dokter($request, $iduser);
+        $user = User::findOrFail($iduser);
+
+        // Update user data
+        $user->nama = $this->format_nama($validated['nama']);
+        $user->email = strtolower($validated['email']);
+        $user->save();
+
+        // Create or update dokter record
+        $dokter = Dokter::where('iduser', $iduser)->first();
+        if (!$dokter) {
+            Dokter::create([
+                'iduser' => $iduser,
+                'no_hp' => $validated['no_hp'],
+                'jenis_kelamin' => $validated['jenis_kelamin'],
+                'bidang_dokter' => $validated['bidang_dokter'],
+                'alamat' => $validated['alamat'],
+            ]);
+        } else {
+            $dokter->no_hp = $validated['no_hp'];
+            $dokter->jenis_kelamin = $validated['jenis_kelamin'];
+            $dokter->bidang_dokter = $validated['bidang_dokter'];
+            $dokter->alamat = $validated['alamat'];
+            $dokter->save();
+        }
+
+        return redirect()
+            ->route('Admin.Dokter.daftar-dokter')
+            ->with('success', 'Data dokter berhasil disimpan.');
     }
 }

@@ -14,7 +14,9 @@ class KodeTindakanTerapi extends Model
         'kode',
         'deskripsi_tindakan_terapi',
         'idkategori',
-        'idkategori_klinis'
+        'idkategori_klinis',
+        'deleted_at',
+        'deleted_by'
     ];
 
     public function kategori()

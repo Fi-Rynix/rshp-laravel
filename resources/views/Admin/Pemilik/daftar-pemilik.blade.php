@@ -46,36 +46,69 @@
 
             <tbody class="divide-y divide-slate-200">
                 @foreach($pemiliklist as $row)
-                    <tr class="hover:bg-slate-50 transition-colors duration-150">
+                    @php
+                        $isIncomplete = !$row->no_wa || !$row->alamat || !$row->idpemilik;
+                    @endphp
+                    <tr class="hover:bg-slate-50 transition-colors duration-150 {{ $isIncomplete ? 'bg-yellow-50' : '' }}">
                         <td class="px-6 py-4">{{ $loop->iteration }}</td>
-                        <td class="px-6 py-4">{{ $row->user->nama ?? '-' }}</td>
-                        <td class="px-6 py-4">{{ $row->user->email ?? '-' }}</td>
-                        <td class="px-6 py-4">{{ $row->alamat }}</td>
-                        <td class="px-6 py-4">{{ $row->no_wa }}</td>
+                        <td class="px-6 py-4 font-medium">{{ $row->nama ?? '-' }}</td>
+                        <td class="px-6 py-4 text-sm">{{ $row->email ?? '-' }}</td>
+                        <td class="px-6 py-4">
+                            @if($row->alamat)
+                                {{ $row->alamat }}
+                            @else
+                                <span class="text-gray-400 italic">Belum diisi</span>
+                            @endif
+                        </td>
+                        <td class="px-6 py-4">
+                            @if($row->no_wa)
+                                {{ $row->no_wa }}
+                            @else
+                                <span class="text-gray-400 italic">Belum diisi</span>
+                            @endif
+                        </td>
 
                         <td class="px-6 py-4 text-center">
-                            <button
-                                command="show-modal"
-                                commandfor="modalEdit-{{ $row->idpemilik }}"
-                                class="inline-flex items-center gap-1.5 px-3 py-1.5
-                                    bg-teal-500 text-white text-sm font-medium
-                                    rounded-md hover:bg-teal-600 transition shadow-sm hover:shadow">
-                                Edit
-                            </button>
+                            @if($isIncomplete)
+                                <button
+                                    command="show-modal"
+                                    commandfor="modalEdit-{{ $row->iduser }}"
+                                    class="inline-flex items-center gap-1.5 px-3 py-1.5
+                                        bg-amber-500 text-white text-sm font-medium
+                                        rounded-md hover:bg-amber-600 transition shadow-sm hover:shadow">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                                    </svg>
+                                    Isi Data
+                                </button>
+                            @else
+                                <button
+                                    command="show-modal"
+                                    commandfor="modalEdit-{{ $row->iduser }}"
+                                    class="inline-flex items-center gap-1.5 px-3 py-1.5
+                                        bg-teal-500 text-white text-sm font-medium
+                                        rounded-md hover:bg-teal-600 transition shadow-sm hover:shadow">
+                                    Edit
+                                </button>
 
-                            <button
-                                command="show-modal"
-                                commandfor="modalDelete-{{ $row->idpemilik }}"
-                                class="inline-flex items-center gap-1.5 px-3 py-1.5
-                                    bg-red-500 text-white text-sm font-medium
-                                    rounded-md hover:bg-red-600 transition shadow-sm hover:shadow">
-                                Hapus
-                            </button>
+                                <button
+                                    command="show-modal"
+                                    commandfor="modalDelete-{{ $row->idpemilik }}"
+                                    class="inline-flex items-center gap-1.5 px-3 py-1.5
+                                        bg-red-500 text-white text-sm font-medium
+                                        rounded-md hover:bg-red-600 transition shadow-sm hover:shadow">
+                                    Hapus
+                                </button>
+                            @endif
                         </td>
                     </tr>
 
-                    @include('Admin.Pemilik.edit-pemilik', ['pemilik' => $row])
-                    @include('Admin.Pemilik.delete-pemilik', ['pemilik' => $row])
+                    @if($row->idpemilik)
+                        @include('Admin.Pemilik.edit-pemilik', ['pemilik' => $row])
+                        @include('Admin.Pemilik.delete-pemilik', ['pemilik' => $row])
+                    @else
+                        @include('Admin.Pemilik.edit-pemilik', ['pemilik' => (object)["iduser" => $row->iduser, "nama" => $row->nama, "email" => $row->email, "idpemilik" => null, "no_wa" => null, "alamat" => null]])
+                    @endif
 
                 @endforeach
             </tbody>

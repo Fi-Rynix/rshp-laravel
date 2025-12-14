@@ -13,11 +13,18 @@ use Illuminate\Support\Facades\Hash;
 class Perawat_Controller extends Controller
 {
     // validation & helper
-    protected function validate_perawat(Request $request)
+    protected function validate_perawat(Request $request, $iduser = null)
     {
         return $request->validate([
             'nama' => ['required', 'string', 'max:255', 'min:3'],
-            'email' => ['required', 'email', 'max:255', 'unique:user,email'],
+            'email' => [
+                'required',
+                'email',
+                'max:255',
+                $iduser
+                    ? 'unique:user,email,' . $iduser . ',iduser'
+                    : 'unique:user,email'
+            ],
             'no_hp' => ['required', 'numeric', 'digits_between:10,15'],
             'jenis_kelamin' => ['required', 'in:L,P'],
             'pendidikan' => ['required', 'string', 'min:3', 'max:100'],
@@ -84,8 +91,20 @@ class Perawat_Controller extends Controller
 
 
     // method
-    public function daftar_perawat() {
-        $perawatlist = Perawat::with('user')->get();
+    public function daftar_perawat()
+    {
+        // Select users that have role id = 3 (perawat)
+        // Left join perawat to include optional fields
+        // Exclude soft-deleted records
+        $perawatlist = User::leftJoin('role_user', 'user.iduser', '=', 'role_user.iduser')
+            ->where('role_user.idrole', 3)
+            ->leftJoin('perawat', 'user.iduser', '=', 'perawat.iduser')
+            ->whereNull('user.deleted_at')
+            ->whereNull('perawat.deleted_at')
+            ->select('user.*', 'perawat.idperawat', 'perawat.no_hp', 'perawat.jenis_kelamin', 'perawat.pendidikan', 'perawat.alamat')
+            ->orderBy('user.nama')
+            ->get();
+
         return view('Admin.Perawat.daftar-perawat', compact('perawatlist'));
     }
 
@@ -131,12 +150,51 @@ class Perawat_Controller extends Controller
 
     public function delete_perawat($id) {
         $perawat = Perawat::findOrFail($id);
-        $perawat->delete();
-        RoleUser::where('iduser', $perawat->iduser)->delete();
-        User::where('iduser', $perawat->iduser)->delete();
+        $iduser = session('iduser');
+        $perawat->update([
+            'deleted_at' => now(),
+            'deleted_by' => $iduser
+        ]);
+        User::where('iduser', $perawat->iduser)->update([
+            'deleted_at' => now(),
+            'deleted_by' => $iduser
+        ]);
         return redirect()
             ->route('Admin.Perawat.daftar-perawat')
             ->with('success', 'Data perawat berhasil dihapus.');
+    }
+
+    public function save_perawat(Request $request, $iduser)
+    {
+        $validated = $this->validate_perawat($request, $iduser);
+        $user = User::findOrFail($iduser);
+
+        // Update user data
+        $user->nama = $this->format_nama($validated['nama']);
+        $user->email = strtolower($validated['email']);
+        $user->save();
+
+        // Create or update perawat record
+        $perawat = Perawat::where('iduser', $iduser)->first();
+        if (!$perawat) {
+            Perawat::create([
+                'iduser' => $iduser,
+                'no_hp' => $validated['no_hp'],
+                'jenis_kelamin' => $validated['jenis_kelamin'],
+                'pendidikan' => $validated['pendidikan'],
+                'alamat' => $validated['alamat'],
+            ]);
+        } else {
+            $perawat->no_hp = $validated['no_hp'];
+            $perawat->jenis_kelamin = $validated['jenis_kelamin'];
+            $perawat->pendidikan = $validated['pendidikan'];
+            $perawat->alamat = $validated['alamat'];
+            $perawat->save();
+        }
+
+        return redirect()
+            ->route('Admin.Perawat.daftar-perawat')
+            ->with('success', 'Data perawat berhasil disimpan.');
     }
 }
 

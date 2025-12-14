@@ -79,6 +79,7 @@ Route::put('ManajemenRole/update-manajemen-role/{id}', [Role_Controller::class, 
 Route::get('Pemilik/daftar-pemilik', [Pemilik_Controller::class, 'daftar_pemilik'])->name('Pemilik.daftar-pemilik');
 Route::post('Pemilik/store-pemilik', [Pemilik_Controller::class, 'store_pemilik'])->name('Pemilik.store-pemilik');
 Route::put('Pemilik/update-pemilik/{id}', [Pemilik_Controller::class, 'update_pemilik'])->name('Pemilik.update-pemilik');
+Route::put('Pemilik/save-pemilik/{iduser}', [Pemilik_Controller::class, 'save_pemilik'])->name('Pemilik.save-pemilik');
 Route::delete('Pemilik/delete-pemilik/{id}', [Pemilik_Controller::class, 'delete_pemilik'])->name('Pemilik.delete-pemilik');
 
 
@@ -91,12 +92,14 @@ Route::delete('Pet/delete-pet/{id}', [Pet_Controller::class, 'delete_pet'])->nam
 Route::get('Dokter/daftar-dokter', [Dokter_Controller::class, 'daftar_dokter'])->name('Dokter.daftar-dokter');
 Route::post('Dokter/store-dokter', [Dokter_Controller::class, 'store_dokter'])->name('Dokter.store-dokter');
 Route::put('Dokter/update-dokter/{id}', [Dokter_Controller::class, 'update_dokter'])->name('Dokter.update-dokter');
+Route::put('Dokter/save-dokter/{iduser}', [Dokter_Controller::class, 'save_dokter'])->name('Dokter.save-dokter');
 Route::delete('Dokter/delete-dokter/{id}', [Dokter_Controller::class, 'delete_dokter'])->name('Dokter.delete-dokter');
 
 
 Route::get('Perawat/daftar-perawat', [Perawat_Controller::class, 'daftar_perawat'])->name('Perawat.daftar-perawat');
 Route::post('Perawat/store-perawat', [Perawat_Controller::class, 'store_perawat'])->name('Perawat.store-perawat');
 Route::put('Perawat/update-perawat/{id}', [Perawat_Controller::class, 'update_perawat'])->name('Perawat.update-perawat');
+Route::put('Perawat/save-perawat/{iduser}', [Perawat_Controller::class, 'save_perawat'])->name('Perawat.save-perawat');
 Route::delete('Perawat/delete-perawat/{id}', [Perawat_Controller::class, 'delete_perawat'])->name('Perawat.delete-perawat');
 
 

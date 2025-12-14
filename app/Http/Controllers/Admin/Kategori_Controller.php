@@ -36,7 +36,7 @@ class Kategori_Controller extends Controller
 
     // Method
     public function daftar_kategori() {
-        $kategorilist = Kategori::all();
+        $kategorilist = Kategori::whereNull('deleted_at')->get();
         return view('Admin.Kategori.daftar-kategori', compact('kategorilist'));
     }
 
@@ -61,11 +61,15 @@ class Kategori_Controller extends Controller
 
     public function delete_kategori($id) {
         $kategori = Kategori::findOrFail($id);
-        if ($kategori->kodeTindakanTerapi()->exists()) {
+        if ($kategori->kodeTindakanTerapi()->where('kode_tindakan_terapi.deleted_at', null)->exists()) {
             return redirect()->route('Admin.Kategori.daftar-kategori')
                 ->with('error', 'Kategori ini memiliki record di tabel lain dan tidak dapat dihapus.');
         }
-        $kategori->delete();
+        $iduser = session('iduser');
+        $kategori->update([
+            'deleted_at' => now(),
+            'deleted_by' => $iduser
+        ]);
         return redirect()->route('Admin.Kategori.daftar-kategori')
             ->with('success', 'Kategori berhasil dihapus.');
     }

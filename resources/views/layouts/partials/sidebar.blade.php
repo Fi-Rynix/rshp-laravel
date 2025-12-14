@@ -4,12 +4,12 @@
     x-data="{
         openDropdowns: {},
         activeItem: null,
+        sidebarOpen: true,
         setActive(item) {
             this.activeItem = item;
         },
         toggleDropdown(key) {
             this.openDropdowns[key] = !this.openDropdowns[key];
-            // Tutup dropdown lainnya saat membuka satu dropdown
             if (this.openDropdowns[key]) {
                 Object.keys(this.openDropdowns).forEach(k => {
                     if (k !== key) {
@@ -17,9 +17,50 @@
                     }
                 });
             }
+        },
+        initActiveItem() {
+            @if (Route::is('Admin.dashboard-admin'))
+                this.activeItem = 'dashboard';
+            @elseif (Route::is('Admin.TindakanTerapi.daftar-tindakan-terapi', 'Admin.Kategori.daftar-kategori', 'Admin.KategoriKlinis.daftar-kategori-klinis', 'Admin.JenisHewan.daftar-jenis-hewan', 'Admin.RasHewan.daftar-ras-hewan'))
+                this.openDropdowns['dataMaster'] = true;
+                @if (Route::is('Admin.TindakanTerapi.daftar-tindakan-terapi'))
+                    this.activeItem = 'kodeTindakanTerapi';
+                @elseif (Route::is('Admin.Kategori.daftar-kategori'))
+                    this.activeItem = 'kategori';
+                @elseif (Route::is('Admin.KategoriKlinis.daftar-kategori-klinis'))
+                    this.activeItem = 'kategoriKlinis';
+                @elseif (Route::is('Admin.JenisHewan.daftar-jenis-hewan'))
+                    this.activeItem = 'jenisHewan';
+                @elseif (Route::is('Admin.RasHewan.daftar-ras-hewan'))
+                    this.activeItem = 'rasHewan';
+                @endif
+            @elseif (Route::is('Admin.User.daftar-user', 'Admin.Pemilik.daftar-pemilik', 'Admin.Pet.daftar-pet', 'Admin.Perawat.daftar-perawat', 'Admin.Dokter.daftar-dokter', 'Admin.ManajemenRole.daftar-manajemen-role'))
+                this.openDropdowns['dataUser'] = true;
+                @if (Route::is('Admin.User.daftar-user'))
+                    this.activeItem = 'user';
+                @elseif (Route::is('Admin.Pemilik.daftar-pemilik'))
+                    this.activeItem = 'pemilik';
+                @elseif (Route::is('Admin.Pet.daftar-pet'))
+                    this.activeItem = 'petPasien';
+                @elseif (Route::is('Admin.Perawat.daftar-perawat'))
+                    this.activeItem = 'perawat';
+                @elseif (Route::is('Admin.Dokter.daftar-dokter'))
+                    this.activeItem = 'dokter';
+                @elseif (Route::is('Admin.ManajemenRole.daftar-manajemen-role'))
+                    this.activeItem = 'manajemenRole';
+                @endif
+            @elseif (Route::is('Admin.TemuDokter.daftar-temu-dokter', 'Admin.RekamMedis.daftar-rekam-medis'))
+                this.openDropdowns['transactional'] = true;
+                @if (Route::is('Admin.TemuDokter.daftar-temu-dokter'))
+                    this.activeItem = 'temuDokter';
+                @elseif (Route::is('Admin.RekamMedis.daftar-rekam-medis'))
+                    this.activeItem = 'rekamMedis';
+                @endif
+            @endif
         }
     }"
     @click="if (!sidebarOpen) { Object.keys(openDropdowns).forEach(k => openDropdowns[k] = false); }"
+    @mouseenter="initActiveItem()"
 >
 
     {{-- TOP BAR --}}
@@ -180,3 +221,21 @@
     </nav>
 
 </div>
+
+<script>
+    // Panggil initActiveItem saat Alpine selesai load
+    document.addEventListener('alpine:init', () => {
+        const sidebar = document.querySelector('[x-data*="initActiveItem"]');
+        if (sidebar && sidebar.__x) {
+            sidebar.__x.$data.initActiveItem();
+        }
+    });
+
+    // Fallback jika alpine:init tidak dipanggil
+    setTimeout(() => {
+        const sidebar = document.querySelector('[x-data*="initActiveItem"]');
+        if (sidebar && sidebar.__x && !sidebar.__x.$data.activeItem) {
+            sidebar.__x.$data.initActiveItem();
+        }
+    }, 100);
+</script>

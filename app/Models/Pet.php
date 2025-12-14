@@ -16,7 +16,9 @@ class Pet extends Model
         'warna_tanda',
         'jenis_kelamin',
         'idpemilik',
-        'idras_hewan'
+        'idras_hewan',
+        'deleted_at',
+        'deleted_by'
     ];
 
     public function pemilik()

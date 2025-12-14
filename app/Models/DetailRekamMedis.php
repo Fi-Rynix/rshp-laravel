@@ -10,7 +10,7 @@ class DetailRekamMedis extends Model
     protected $primaryKey = 'iddetail_rekam_medis';
     public $timestamps = false;
 
-    protected $fillable = ['idrekam_medis', 'idkode_tindakan_terapi', 'detail'];
+    protected $fillable = ['idrekam_medis', 'idkode_tindakan_terapi', 'detail', 'deleted_at', 'deleted_by'];
 
     public function rekamMedis()
     {

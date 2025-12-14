@@ -10,7 +10,7 @@ class Perawat extends Model
     protected $primaryKey = 'idperawat';
     public $timestamps = false;
 
-    protected $fillable = ['alamat', 'no_hp', 'pendidikan', 'jenis_kelamin', 'iduser'];
+    protected $fillable = ['alamat', 'no_hp', 'pendidikan', 'jenis_kelamin', 'iduser', 'deleted_at', 'deleted_by'];
 
     public function user()
     {
