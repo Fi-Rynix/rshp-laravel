@@ -4,10 +4,49 @@ namespace App\Http\Controllers\Perawat;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
 use Carbon\Carbon;
 
 class RekamMedisPerawat_Controller extends Controller
 {
+    // validator & helper
+    protected function validate_rekam_medis(Request $request)
+    {
+        return $request->validate([
+            'idreservasi_dokter' => 'required|exists:temu_dokter,idreservasi_dokter',
+            'anamnesa' => 'required|string|max:1000',
+            'temuan_klinis' => 'required|string|max:1000',
+            'diagnosa' => 'required|string|max:1000',
+        ], [
+            'idreservasi_dokter.required' => 'Reservasi dokter wajib dipilih.',
+            'idreservasi_dokter.exists' => 'Reservasi dokter tidak valid.',
+            'anamnesa.required' => 'Anamnesa wajib diisi.',
+            'anamnesa.max' => 'Anamnesa maksimal 1000 karakter.',
+            'temuan_klinis.required' => 'Temuan klinis wajib diisi.',
+            'temuan_klinis.max' => 'Temuan klinis maksimal 1000 karakter.',
+            'diagnosa.required' => 'Diagnosa wajib diisi.',
+            'diagnosa.max' => 'Diagnosa maksimal 1000 karakter.',
+        ]);
+    }
+
+    protected function validate_rekam_medis_update(Request $request)
+    {
+        return $request->validate([
+            'anamnesa' => 'required|string|max:1000',
+            'temuan_klinis' => 'required|string|max:1000',
+            'diagnosa' => 'required|string|max:1000',
+        ], [
+            'anamnesa.required' => 'Anamnesa wajib diisi.',
+            'anamnesa.max' => 'Anamnesa maksimal 1000 karakter.',
+            'temuan_klinis.required' => 'Temuan klinis wajib diisi.',
+            'temuan_klinis.max' => 'Temuan klinis maksimal 1000 karakter.',
+            'diagnosa.required' => 'Diagnosa wajib diisi.',
+            'diagnosa.max' => 'Diagnosa maksimal 1000 karakter.',
+        ]);
+    }
+
+
+    // method
     public function daftar_rekam_medis()
     {
         $rekam_medis_list = DB::table('rekam_medis as rm')
@@ -135,23 +174,9 @@ class RekamMedisPerawat_Controller extends Controller
         return view('Perawat.RekamMedis.detail-rekam-medis', ['rekam_medis' => $rekam_medis]);
     }
 
-    public function store_rekam_medis()
+    public function store_rekam_medis(Request $request)
     {
-        $validated = request()->validate([
-            'idreservasi_dokter' => 'required|exists:temu_dokter,idreservasi_dokter',
-            'anamnesa' => 'required|string|max:1000',
-            'temuan_klinis' => 'required|string|max:1000',
-            'diagnosa' => 'required|string|max:1000',
-        ], [
-            'idreservasi_dokter.required' => 'Reservasi dokter wajib dipilih.',
-            'idreservasi_dokter.exists' => 'Reservasi dokter tidak valid.',
-            'anamnesa.required' => 'Anamnesa wajib diisi.',
-            'anamnesa.max' => 'Anamnesa maksimal 1000 karakter.',
-            'temuan_klinis.required' => 'Temuan klinis wajib diisi.',
-            'temuan_klinis.max' => 'Temuan klinis maksimal 1000 karakter.',
-            'diagnosa.required' => 'Diagnosa wajib diisi.',
-            'diagnosa.max' => 'Diagnosa maksimal 1000 karakter.',
-        ]);
+        $validated = $this->validate_rekam_medis($request);
 
         $temu_dokter = DB::table('temu_dokter')
             ->where('idreservasi_dokter', $validated['idreservasi_dokter'])
@@ -175,20 +200,9 @@ class RekamMedisPerawat_Controller extends Controller
             ->with('success', 'Rekam medis berhasil ditambahkan');
     }
 
-    public function update_rekam_medis($id)
+    public function update_rekam_medis($id, Request $request)
     {
-        $validated = request()->validate([
-            'anamnesa' => 'required|string|max:1000',
-            'temuan_klinis' => 'required|string|max:1000',
-            'diagnosa' => 'required|string|max:1000',
-        ], [
-            'anamnesa.required' => 'Anamnesa wajib diisi.',
-            'anamnesa.max' => 'Anamnesa maksimal 1000 karakter.',
-            'temuan_klinis.required' => 'Temuan klinis wajib diisi.',
-            'temuan_klinis.max' => 'Temuan klinis maksimal 1000 karakter.',
-            'diagnosa.required' => 'Diagnosa wajib diisi.',
-            'diagnosa.max' => 'Diagnosa maksimal 1000 karakter.',
-        ]);
+        $validated = $this->validate_rekam_medis_update($request);
 
         DB::table('rekam_medis')
             ->where('idrekam_medis', '=', $id)

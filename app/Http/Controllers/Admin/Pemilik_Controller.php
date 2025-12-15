@@ -53,6 +53,7 @@ class Pemilik_Controller extends Controller
     {
         $pemiliklist = User::leftJoin('role_user', 'user.iduser', '=', 'role_user.iduser')
             ->where('role_user.idrole', 5)
+            ->where('role_user.status', 1)
             ->leftJoin('pemilik', 'user.iduser', '=', 'pemilik.iduser')
             ->whereNull('user.deleted_at')
             ->whereNull('pemilik.deleted_at')

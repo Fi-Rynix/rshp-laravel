@@ -60,11 +60,9 @@ class Dokter_Controller extends Controller
     // method
     public function daftar_dokter()
     {
-        // Select users that have role id = 2 (dokter)
-        // Left join dokter to include optional fields
-        // Exclude soft-deleted records
         $dokterlist = User::leftJoin('role_user', 'user.iduser', '=', 'role_user.iduser')
             ->where('role_user.idrole', 2)
+            ->where('role_user.status', 1)
             ->leftJoin('dokter', 'user.iduser', '=', 'dokter.iduser')
             ->whereNull('user.deleted_at')
             ->whereNull('dokter.deleted_at')

@@ -4,10 +4,27 @@ namespace App\Http\Controllers\Dokter;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
 use Carbon\Carbon;
 
 class RekamMedisDokter_Controller extends Controller
 {
+    // validator & helper
+    protected function validate_detail_rekam_medis(Request $request)
+    {
+        return $request->validate([
+            'idkode_tindakan_terapi' => 'required|exists:kode_tindakan_terapi,idkode_tindakan_terapi',
+            'detail' => 'required|string|max:1000',
+        ], [
+            'idkode_tindakan_terapi.required' => 'Kode tindakan wajib dipilih.',
+            'idkode_tindakan_terapi.exists' => 'Kode tindakan tidak valid.',
+            'detail.required' => 'Detail tindakan wajib diisi.',
+            'detail.max' => 'Detail tindakan maksimal 1000 karakter.',
+        ]);
+    }
+
+
+    // method
     public function daftar_rekam_medis()
     {
         $rekam_medis_list = DB::table('rekam_medis as rm')
@@ -117,7 +134,7 @@ class RekamMedisDokter_Controller extends Controller
         ]);
     }
 
-    public function store_detail($idrekam_medis)
+    public function store_detail($idrekam_medis, Request $request)
     {
         $rekam_medis = DB::table('rekam_medis')
             ->where('idrekam_medis', $idrekam_medis)
@@ -137,15 +154,7 @@ class RekamMedisDokter_Controller extends Controller
             return redirect()->back()->with('error', 'Anda tidak memiliki akses untuk menambah tindakan.');
         }
 
-        $validated = request()->validate([
-            'idkode_tindakan_terapi' => 'required|exists:kode_tindakan_terapi,idkode_tindakan_terapi',
-            'detail' => 'required|string|max:1000',
-        ], [
-            'idkode_tindakan_terapi.required' => 'Kode tindakan wajib dipilih.',
-            'idkode_tindakan_terapi.exists' => 'Kode tindakan tidak valid.',
-            'detail.required' => 'Detail tindakan wajib diisi.',
-            'detail.max' => 'Detail tindakan maksimal 1000 karakter.',
-        ]);
+        $validated = $this->validate_detail_rekam_medis($request);
 
         DB::table('detail_rekam_medis')->insert([
             'idrekam_medis' => $idrekam_medis,
@@ -157,7 +166,7 @@ class RekamMedisDokter_Controller extends Controller
             ->with('success', 'Tindakan berhasil ditambahkan');
     }
 
-    public function update_detail($iddetail_rekam_medis)
+    public function update_detail($iddetail_rekam_medis, Request $request)
     {
         $detail = DB::table('detail_rekam_medis')
             ->where('iddetail_rekam_medis', $iddetail_rekam_medis)
@@ -186,15 +195,7 @@ class RekamMedisDokter_Controller extends Controller
             return redirect()->back()->with('error', 'Anda tidak memiliki akses untuk mengubah tindakan.');
         }
 
-        $validated = request()->validate([
-            'idkode_tindakan_terapi' => 'required|exists:kode_tindakan_terapi,idkode_tindakan_terapi',
-            'detail' => 'required|string|max:1000',
-        ], [
-            'idkode_tindakan_terapi.required' => 'Kode tindakan wajib dipilih.',
-            'idkode_tindakan_terapi.exists' => 'Kode tindakan tidak valid.',
-            'detail.required' => 'Detail tindakan wajib diisi.',
-            'detail.max' => 'Detail tindakan maksimal 1000 karakter.',
-        ]);
+        $validated = $this->validate_detail_rekam_medis($request);
 
         DB::table('detail_rekam_medis')
             ->where('iddetail_rekam_medis', $iddetail_rekam_medis)

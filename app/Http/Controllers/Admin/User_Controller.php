@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\User;   // pastikan modelnya sesuai
+use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
 class User_Controller extends Controller
@@ -40,6 +40,7 @@ class User_Controller extends Controller
     }
 
 
+    
     // method
     public function daftar_user() {
         $userlist = User::whereNull('deleted_at')->get();

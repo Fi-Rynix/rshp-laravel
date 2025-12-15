@@ -95,6 +95,7 @@ class Perawat_Controller extends Controller
     {
         $perawatlist = User::leftJoin('role_user', 'user.iduser', '=', 'role_user.iduser')
             ->where('role_user.idrole', 3)
+            ->where('role_user.status', 1)
             ->leftJoin('perawat', 'user.iduser', '=', 'perawat.iduser')
             ->whereNull('user.deleted_at')
             ->whereNull('perawat.deleted_at')
